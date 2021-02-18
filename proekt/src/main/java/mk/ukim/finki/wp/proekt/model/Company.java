@@ -21,4 +21,13 @@ public class Company {
 
     private String description;
 
+    public Company() {
+    }
+
+    public Company(String name, String address, String description) {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+    }
+
 }

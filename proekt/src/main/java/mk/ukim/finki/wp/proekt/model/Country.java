@@ -19,4 +19,13 @@ public class Country {
 
     @Enumerated(EnumType.STRING)
     private Continent continent;
+
+    public Country() {
+    }
+
+    public Country(String name, String code, Continent continent) {
+        this.name = name;
+        this.code = code;
+        this.continent = continent;
+    }
 }

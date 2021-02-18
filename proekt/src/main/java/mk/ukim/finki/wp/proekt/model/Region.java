@@ -17,4 +17,12 @@ public class Region {
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Country> countries;
+
+    public Region() {
+    }
+
+    public Region(String name, List<Country> countries) {
+        this.name = name;
+        this.countries = countries;
+    }
 }

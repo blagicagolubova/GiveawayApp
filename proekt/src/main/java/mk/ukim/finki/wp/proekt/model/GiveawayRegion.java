@@ -14,4 +14,11 @@ public class GiveawayRegion {
 
     @OneToMany(fetch=FetchType.EAGER)
     List<Country> countries;
+
+    public GiveawayRegion() {
+    }
+
+    public GiveawayRegion(List<Country> countries) {
+        this.countries = countries;
+    }
 }

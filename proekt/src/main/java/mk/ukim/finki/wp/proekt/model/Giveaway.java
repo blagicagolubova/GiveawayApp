@@ -44,4 +44,9 @@ public class Giveaway {
 
     @OneToOne(fetch = FetchType.EAGER)
     private GiveawayRegion giveawayRegion;
+
+    public Giveaway() {
+    }
+
+
 }

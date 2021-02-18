@@ -16,4 +16,12 @@ public class Award {
 
     @ManyToOne
     private Manufacturer manufacturer;
+
+    public Award() {
+    }
+
+    public Award(String name, Manufacturer manufacturer) {
+        this.name = name;
+        this.manufacturer = manufacturer;
+    }
 }

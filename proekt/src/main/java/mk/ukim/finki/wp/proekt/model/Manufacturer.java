@@ -19,4 +19,12 @@ public class Manufacturer {
 
     private String description;
 
+
+    public Manufacturer() {
+    }
+
+    public Manufacturer(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }
