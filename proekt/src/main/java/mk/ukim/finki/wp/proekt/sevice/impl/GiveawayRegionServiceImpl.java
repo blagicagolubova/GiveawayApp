@@ -49,5 +49,10 @@ public class GiveawayRegionServiceImpl implements GiveawayRegionService {
 
     }
 
+    @Override
+    public GiveawayRegion findById(Integer region_Id) {
+        return this.giveawayRegionRepository.findById(region_Id).get();
+    }
+
 
 }

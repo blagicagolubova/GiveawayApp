@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GiveawayRepository extends JpaRepository<Giveaway,Integer> {
+
 }

@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class GiveawayController {
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String home(Model model){
 
         return "Home";
-    }
+    }*/
+
 }

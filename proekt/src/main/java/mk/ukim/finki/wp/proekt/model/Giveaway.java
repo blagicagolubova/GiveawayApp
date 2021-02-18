@@ -24,6 +24,7 @@ public class Giveaway {
     @ManyToOne
     private Category category;
 
+
     @ManyToOne
     private Award award;
 
@@ -48,5 +49,27 @@ public class Giveaway {
     public Giveaway() {
     }
 
+    public Giveaway(String name, Date startDate, Date endDate, Category category, Award award, List<User> participants, User winner, UserType userType, Company company, User creator, GiveawayRegion giveawayRegion) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.category = category;
+        this.award = award;
+        this.participants = participants;
+        this.winner = winner;
+        this.userType = userType;
+        this.company = company;
+        this.creator = creator;
+        this.giveawayRegion = giveawayRegion;
+    }
 
+    public Giveaway(String name, Date startDate, Date endDate, Category category, Award award, User creator, GiveawayRegion giveawayRegion) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.category = category;
+        this.award = award;
+        this.creator = creator;
+        this.giveawayRegion = giveawayRegion;
+    }
 }

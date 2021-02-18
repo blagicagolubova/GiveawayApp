@@ -11,6 +11,6 @@ public interface GiveawayRegionService {
 
     GiveawayRegion updateCountries(Integer giveawayRegion_id, List<Integer> country_ids);
 
-
+    GiveawayRegion findById(Integer region_Id);
 
 }
