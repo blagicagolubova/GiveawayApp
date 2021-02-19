@@ -1,8 +1,13 @@
 package mk.ukim.finki.wp.proekt.sevice.impl;
 
 import mk.ukim.finki.wp.proekt.model.User;
+import mk.ukim.finki.wp.proekt.model.enumerations.Role;
+import mk.ukim.finki.wp.proekt.model.exceptions.*;
 import mk.ukim.finki.wp.proekt.repository.UserRepository;
 import mk.ukim.finki.wp.proekt.sevice.UserService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,20 +17,28 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public User save(String username, String name, String surname, String address, String phone, String email, String password) {
-        if(!username.isEmpty() && !email.isEmpty() && !name.isEmpty() && !surname.isEmpty() && !password.isEmpty()){
-            User user=new User(username, name, surname, address, phone, email, password);
-            return this.userRepository.save(user);
+    public User save(String username, String password, String repeatedPassword, String name, String surname, String address, String phone, String email) {
+        if( username==null || username.isEmpty() || password==null || password.isEmpty()){
+            throw new InvalidArgumentException();
         }
-        else {
-            //TODO: exception
-            return null;
+        if(!password.equals(repeatedPassword)){
+            throw new PasswordDoNotMatchException();
         }
+        if(this.userRepository.findByUsername(username).isPresent()){
+            throw new UserNameAlreadyExistsException(username);
+        }
+        User user=new User(username, name, surname, address, phone, email, passwordEncoder.encode(password), Role.ROLE_USER);
+        userRepository.save(user);
+        return user;
     }
 
     @Override
@@ -43,4 +56,10 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         return this.userRepository.findAll();
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userRepository.findByUsername(s).orElseThrow(()->new UsernameNotFoundException(s));
+    }
+
 }
