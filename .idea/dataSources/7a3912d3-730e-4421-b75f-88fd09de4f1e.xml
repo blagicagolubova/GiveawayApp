@@ -789,7 +789,7 @@ false Zulu
     <database id="2" parent="1" name="giveaway">
       <ObjectId>16394</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>523</IntrospectionStateNumber>
+      <IntrospectionStateNumber>539</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|16395|16397|1
 sequence|table|16403|16405|1
@@ -874,7 +874,7 @@ UC/10
 </Acl>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>524</IntrospectionStateNumber>
+      <IntrospectionStateNumber>540</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="18" parent="2" name="plpgsql">
@@ -1080,7 +1080,7 @@ UC/10
     <table id="49" parent="17" name="users">
       <ObjectId>16483</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>514</StateNumber>
+      <StateNumber>529</StateNumber>
     </table>
     <column id="50" parent="38" name="id">
       <Position>1</Position>
@@ -1665,7 +1665,41 @@ UC/10
       <StateNumber>505</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="127" parent="49" name="users_pkey">
+    <column id="127" parent="49" name="is_account_non_expired">
+      <Position>8</Position>
+      <DataType>boolean|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>525</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="128" parent="49" name="is_account_non_locked">
+      <Position>9</Position>
+      <DataType>boolean|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>526</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="129" parent="49" name="is_credentials_non_expired">
+      <Position>10</Position>
+      <DataType>boolean|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>527</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="130" parent="49" name="is_enabled">
+      <Position>11</Position>
+      <DataType>boolean|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>528</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="131" parent="49" name="role">
+      <Position>12</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>529</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="132" parent="49" name="users_pkey">
       <ObjectId>16489</ObjectId>
       <StateNumber>505</StateNumber>
       <ColNames>username</ColNames>
@@ -1676,7 +1710,7 @@ UC/10
       <CollationNames>default</CollationNames>
       <ClassIds>3126</ClassIds>
     </index>
-    <key id="128" parent="49" name="users_pkey">
+    <key id="133" parent="49" name="users_pkey">
       <ObjectId>16490</ObjectId>
       <StateNumber>505</StateNumber>
       <ColNames>username</ColNames>

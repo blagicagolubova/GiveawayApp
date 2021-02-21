@@ -27,4 +27,8 @@ public class Manufacturer {
         this.name = name;
         this.description = description;
     }
+
+    public Manufacturer(String name) {
+        this.name = name;
+    }
 }

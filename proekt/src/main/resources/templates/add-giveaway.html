@@ -1,0 +1,108 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Add-Giveaway | Giveaway</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <form class="form-signin mt-xl-5" method="post" action="/add">
+            <h2 class="form-signin-heading">Register</h2>
+            <p>
+                <label for="name" class="sr-only">Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Giveaway Name" required="" autofocus="">
+            </p>
+            <p>
+                <label for="startdate" class="sr-only">Start Date</label>
+                <input type="date" id="startdate" name="startdate" class="form-control" placeholder="Start Date" required="" autofocus="">
+            </p>
+            <p>
+                <label for="enddate" class="sr-only">End Date</label>
+                <input type="date" id="enddate" name="enddate" class="form-control" placeholder="End Date" required="" autofocus="">
+            </p>
+            <p>
+                <label for="award" class="sr-only">Award</label>
+                <input type="text" id="award" name="award" class="form-control" placeholder="Award" required="" autofocus="">
+            </p>
+            <div class="form-group">
+                <label>Region</label>
+                <select name="region" class="form-control">
+                    <option
+                            th:each="region : ${regions}"
+                            th:value="${region.getId()}"
+                            th:text="${region.getName()}">
+                    </option>
+                    <option
+                            th:each="region : ${regions}"
+                            th:value="${region.getId()}"
+                            th:text="${region.getName()}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Country</label>
+                <select name="country" class="form-control">
+                    <option
+                            th:each="country : ${countries}"
+                            th:value="${country.getId()}"
+                            th:text="${country.getName()}">
+                    </option>
+                    <option
+                            th:each="country : ${countries}"
+                            th:value="${country.getId()}"
+                            th:text="${country.getName()}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Manufacturer</label>
+                <select name="manufacturer" class="form-control">
+                    <option
+                            th:each="man : ${manufacturers}"
+                            th:value="${man.getId()}"
+                            th:text="${man.getName()}">
+                    </option>
+                    <option
+                            th:each="man : ${manufacturers}"
+                            th:value="${man.getId()}"
+                            th:text="${man.getName()}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category" class="form-control">
+                    <option
+                            th:each="category : ${categories}"
+                            th:value="${category.getId()}"
+                            th:text="${category.getName()}">
+                    </option>
+                    <option
+                            th:each="category : ${categories}"
+                            th:value="${category.getId()}"
+                            th:text="${category.getName()}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>User-Type</label>
+                <select name="user_type" class="form-control">
+                    <option
+                            th:each="ut : ${user_types}"
+                            th:value="${ut}"
+                            th:text="${ut}">
+                    </option>
+                </select>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        </form>
+        <a href="/login" class="btn btn-block btn-light">Already have an account? Login here!</a>
+    </div>
+</th:block>
+</body>
+</html>

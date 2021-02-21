@@ -5,6 +5,8 @@ import mk.ukim.finki.wp.proekt.repository.ManufacturerRepository;
 import mk.ukim.finki.wp.proekt.sevice.ManufacturerService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ManufacturerServiceImpl implements ManufacturerService {
 
@@ -29,5 +31,10 @@ public class ManufacturerServiceImpl implements ManufacturerService {
             //TODO: exception
             return null;
         }
+    }
+
+    @Override
+    public List<Manufacturer> findAll() {
+        return this.manufacturerRepository.findAll();
     }
 }

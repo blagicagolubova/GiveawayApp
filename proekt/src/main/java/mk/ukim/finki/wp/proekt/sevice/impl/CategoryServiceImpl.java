@@ -3,7 +3,11 @@ package mk.ukim.finki.wp.proekt.sevice.impl;
 import mk.ukim.finki.wp.proekt.model.Category;
 import mk.ukim.finki.wp.proekt.repository.CategoryRepository;
 import mk.ukim.finki.wp.proekt.sevice.CategoryService;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -33,5 +37,10 @@ public class CategoryServiceImpl implements CategoryService {
             //TODO: exception
             return null;
         }
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return this.categoryRepository.findAll();
     }
 }
