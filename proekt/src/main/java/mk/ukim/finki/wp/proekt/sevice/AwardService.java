@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.proekt.sevice;
 
 import mk.ukim.finki.wp.proekt.model.Award;
+import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
 
 import java.util.List;
 
@@ -14,5 +15,10 @@ public interface AwardService {
 
     List<Award> findAllByCreator(String username);
 
+    List<Award> findAllByStatus(AwardStatus status);
+
+    Award updateStatus(Integer awardId,AwardStatus awardStatus);
     void deleteById(Integer id);
+
+
 }

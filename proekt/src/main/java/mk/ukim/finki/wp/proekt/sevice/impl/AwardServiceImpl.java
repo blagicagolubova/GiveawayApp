@@ -3,6 +3,7 @@ package mk.ukim.finki.wp.proekt.sevice.impl;
 import mk.ukim.finki.wp.proekt.model.Award;
 import mk.ukim.finki.wp.proekt.model.Manufacturer;
 import mk.ukim.finki.wp.proekt.model.User;
+import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
 import mk.ukim.finki.wp.proekt.repository.AwardRepository;
 import mk.ukim.finki.wp.proekt.repository.UserRepository;
 import mk.ukim.finki.wp.proekt.sevice.AwardService;
@@ -32,7 +33,7 @@ public class AwardServiceImpl implements AwardService {
         if (this.manufacturerService.findById(manufacturer_id)!= null && !name.isEmpty()) {
             Manufacturer manufacturer=this.manufacturerService.findById(manufacturer_id);
             User user= this.userService.findByUsername(username);
-            Award award= new Award(name, weight, url, manufacturer, user);
+            Award award= new Award(name, weight, url, manufacturer, user, AwardStatus.DEACTIVE);
             return this.awardRepository.save(award);
         }
         else {
@@ -73,6 +74,26 @@ public class AwardServiceImpl implements AwardService {
         User user= this.userService.findByUsername(username);
         List<Award> awards= this.awardRepository.findAllByCreator(user);
         return awards;
+    }
+
+    @Override
+    public List<Award> findAllByStatus(AwardStatus status) {
+        return this.awardRepository.findAllByStatus(status);
+    }
+
+    @Override
+    public Award updateStatus(Integer awardId, AwardStatus awardStatus) {
+       if(this.awardRepository.findById(awardId).isPresent())
+       {
+           Award award=this.awardRepository.findById(awardId).get();
+            award.setStatus(awardStatus);
+            return this.awardRepository.save(award);
+       }
+       else
+       {
+           //ToDo:Exception
+           return null;
+       }
     }
 
     @Override

@@ -35,12 +35,23 @@
                 $('#country').html(opcii);
             });
         }
+
+        function userType(value){
+            console.log(value);
+            if(value=="COMPANY"){
+                document.getElementById("company").hidden=false;
+            }else {
+                document.getElementById("company").hidden=true;
+            }
+        }
     </script>
 </head>
 <body>
 <th:block xmlns:th="http://www.thymeleaf.org">
     <div class="container">
-        <form class="form-signin mt-xl-5" method="post" action="/add">
+        <p th:if="${awards.size()<1}">You don't have any free awards.Create one
+        <a href="/awards/add-award" class="btn btn-primary">Create Award</a></p>
+        <form class="form-signin mt-xl-5" method="post" action="/giveaway/add" th:if="${awards.size()>0}">
             <h2 class="form-signin-heading">Register</h2>
             <p>
                 <label for="name" class="sr-only">Name</label>
@@ -54,32 +65,17 @@
                 <label for="enddate" class="sr-only">End Date</label>
                 <input type="date" id="enddate" name="enddate" class="form-control" placeholder="End Date" required="" autofocus="">
             </p>
-            <p>
-                <label for="award" class="sr-only">Award</label>
-                <input type="text" id="award" name="award" class="form-control" placeholder="Award" required="" autofocus="">
-            </p>
-            <!--
+
             <div class="form-group">
-                <label>Region</label>
-                <select  id="region" name="region" class="form-control">
+                <label for="award">Award</label>
+                <select name="award" id="award" class="form-control">
                     <option
-                            th:each="region : ${regions}"
-                            th:value="${region.getId()}"
-                            th:text="${region.getName()}">
+                            th:each="award : ${awards}"
+                            th:value="${award.getId()}"
+                            th:text="${award.getName()}">
                     </option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>Country</label>
-                <select id="country" name="country" class="form-control" multiple>
-                    <option
-                            th:each="country : ${countries}"
-                            th:value="${country.getId()}"
-                            th:text="${country.getName()}">
-                    </option>
-                </select>
-            </div>
-            -->
 
             <div class="form-group">
                 <label for="region">Region</label>
@@ -95,21 +91,11 @@
 
             <div class="form-group">
                 <label for="country">Country:</label>
-                <select class="form-control" name="country" id="country" required="required" multiple="true">
+                <select class="form-control" name="country" id="country" required="required" multiple="true" >
                     <option disabled="disabled" selected="selected" > -- Countries --</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label>Manufacturer</label>
-                <select name="manufacturer" class="form-control">
-                    <option
-                            th:each="man : ${manufacturers}"
-                            th:value="${man.getId()}"
-                            th:text="${man.getName()}">
-                    </option>
-                </select>
-            </div>
             <div class="form-group">
                 <label>Category</label>
                 <select name="category" class="form-control">
@@ -120,15 +106,34 @@
                     </option>
                 </select>
             </div>
+
             <div class="form-group">
                 <label>User-Type</label>
-                <select name="user_type" class="form-control">
+                <select name="user_type" class="form-control" onchange="userType(this.value)">
                     <option
                             th:each="ut : ${user_types}"
                             th:value="${ut}"
                             th:text="${ut}">
                     </option>
                 </select>
+            </div>
+
+            <div id="company" hidden>
+
+                <p>
+                    <label for="companyName" class="sr-only">Name</label>
+                    <input type="text" id="companyName" name="companyName" class="form-control" placeholder="Company Name">
+                </p>
+
+                <p>
+                    <label for="address" class="sr-only">Name</label>
+                    <input type="text" id="address" name="address" class="form-control" placeholder="Company Address">
+                </p>
+
+                <p>
+                    <label for="desc" class="sr-only">Name</label>
+                    <input type="text" id="desc" name="desc" class="form-control" placeholder="Company Description">
+                </p>
             </div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Make a giveaway</button>

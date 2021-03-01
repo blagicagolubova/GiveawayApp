@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.proekt.model;
 
 import lombok.Data;
+import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
 
 import javax.persistence.*;
 
@@ -18,6 +19,8 @@ public class Award {
 
     private String url;
 
+    private AwardStatus status;
+
     @ManyToOne
     private Manufacturer manufacturer;
 
@@ -27,17 +30,13 @@ public class Award {
     public Award() {
     }
 
-    public Award(String name, Manufacturer manufacturer, User user) {
-        this.name = name;
-        this.manufacturer = manufacturer;
-        this.creator=user;
-    }
 
-    public Award(String name, Float weight, String url, Manufacturer manufacturer, User creator) {
+    public Award(String name, Float weight, String url, Manufacturer manufacturer, User creator, AwardStatus status) {
         this.name = name;
         this.weight = weight;
         this.url = url;
         this.manufacturer = manufacturer;
         this.creator = creator;
+        this.status=status;
     }
 }

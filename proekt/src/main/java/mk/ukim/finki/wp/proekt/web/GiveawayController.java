@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.proekt.web;
 
 import mk.ukim.finki.wp.proekt.model.*;
+import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
 import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 import mk.ukim.finki.wp.proekt.sevice.*;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,16 +23,20 @@ public class GiveawayController {
     private final ManufacturerService manufacturerService;
     private final CategoryService categoryService;
     private final UserService userService;
+    private final AwardService awardService;
+    private final GiveawayRegionService giveawayRegionService;
 
 
 
-    public GiveawayController(GiveawayService giveawayService, RegionService regionService, CountryService countryService, ManufacturerService manufacturerService, CategoryService categoryService, UserService userService) {
+    public GiveawayController(GiveawayService giveawayService, RegionService regionService, CountryService countryService, ManufacturerService manufacturerService, CategoryService categoryService, UserService userService, AwardService awardService, GiveawayRegionService giveawayRegionService) {
         this.giveawayService = giveawayService;
         this.regionService = regionService;
         this.countryService = countryService;
         this.manufacturerService = manufacturerService;
         this.categoryService = categoryService;
         this.userService = userService;
+        this.awardService = awardService;
+        this.giveawayRegionService = giveawayRegionService;
     }
 
     @GetMapping
@@ -45,14 +52,14 @@ public class GiveawayController {
                                   @ModelAttribute("country") Country country){
         GiveawayRegion giveawayRegion=new GiveawayRegion();
         List<Region> regions=this.regionService.findAll();
-        //List<Country> countries=this.countryService.findAll();
+        List<Award> awards= this.awardService.findAllByStatus(AwardStatus.DEACTIVE);
         List<Manufacturer> manufacturers=this.manufacturerService.findAll();
         List<Category> categories=this.categoryService.findAll();
         model.addAttribute("user_types", UserType.values());
         model.addAttribute("regions",regions);
         model.addAttribute("categories",categories);
         model.addAttribute("giveawayRegion", giveawayRegion);
-        //model.addAttribute("countries",countries);
+        model.addAttribute("awards", awards);
         model.addAttribute("manufacturers",manufacturers);
         return "add-giveaway";
     }
@@ -69,20 +76,27 @@ public class GiveawayController {
     public String saveGiveaway(
             @RequestParam(required = false) Long id,
             @RequestParam String name,
-            @RequestParam Date startdate,
-            @RequestParam Date enddate,
-            @RequestParam String award,
-            @RequestParam Integer region_Id,
-            @RequestParam String country,
-            @RequestParam Integer category_Id,
-            @RequestParam String manufacturer,
+            @RequestParam String startdate,
+            @RequestParam String enddate,
+            @RequestParam Integer award,
+            @RequestParam Integer region,
+            @RequestParam List<Integer> country,
+            @RequestParam Integer category,
             @RequestParam UserType user_type,
-            HttpServletRequest request){
-        Manufacturer manufacturer1=new Manufacturer(manufacturer);
+            @RequestParam(required = false) String companyName,
+                    @RequestParam(required = false) String address,
+                    @RequestParam(required = false) String desc,
+                    HttpServletRequest request) throws ParseException {
+        Date start=new SimpleDateFormat("yyyy-MM-dd").parse(startdate);
+        Date end=new SimpleDateFormat("yyyy-MM-dd").parse(enddate);
         String username=request.getRemoteUser();
         User user= this.userService.findByUsername(username);
-        Award award1=new Award(award,manufacturer1, user);
-        this.giveawayService.save(name,startdate,enddate,category_Id,award1.getId(), username,region_Id);
+        GiveawayRegion giveawayRegion=this.giveawayRegionService.save(country);
+        this.awardService.updateStatus(award,AwardStatus.ACTIVE);
+        this.giveawayService.save(name,start,end,category,award,username,giveawayRegion.getId());
+
+        //Award award1=new Award(award,manufacturer1, user);
+        //this.giveawayService.save(name,startdate,enddate,category_Id,award1.getId(), username,region_Id);
 
         return "redirect:/giveaway";
     }
