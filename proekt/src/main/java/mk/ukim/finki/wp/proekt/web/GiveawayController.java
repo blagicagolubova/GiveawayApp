@@ -60,7 +60,7 @@ public class GiveawayController {
     @RequestMapping(value = "/countries", method = RequestMethod.GET)
     public @ResponseBody
     List<Country> findAllCountries(
-            @RequestParam(value = "id", required = true) Integer region_id) {
+            @RequestParam(value = "region_id", required = true) Integer region_id) {
         Region region = regionService.findById(region_id);
         return region.getCountries();
     }
