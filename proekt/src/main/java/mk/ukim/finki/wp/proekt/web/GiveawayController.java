@@ -5,13 +5,9 @@ import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 import mk.ukim.finki.wp.proekt.sevice.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -23,15 +19,17 @@ public class GiveawayController {
     private final CountryService countryService;
     private final ManufacturerService manufacturerService;
     private final CategoryService categoryService;
+    private final UserService userService;
 
 
 
-    public GiveawayController(GiveawayService giveawayService, RegionService regionService, CountryService countryService, ManufacturerService manufacturerService, CategoryService categoryService) {
+    public GiveawayController(GiveawayService giveawayService, RegionService regionService, CountryService countryService, ManufacturerService manufacturerService, CategoryService categoryService, UserService userService) {
         this.giveawayService = giveawayService;
         this.regionService = regionService;
         this.countryService = countryService;
         this.manufacturerService = manufacturerService;
         this.categoryService = categoryService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -42,17 +40,29 @@ public class GiveawayController {
     }
 
     @GetMapping("/add-giveaway")
-    public String addGiveawayPage(Model model){
+    public String addGiveawayPage(Model model,
+                                  @ModelAttribute("region") Region region,
+                                  @ModelAttribute("country") Country country){
+        GiveawayRegion giveawayRegion=new GiveawayRegion();
         List<Region> regions=this.regionService.findAll();
-        List<Country> countries=this.countryService.findAll();
+        //List<Country> countries=this.countryService.findAll();
         List<Manufacturer> manufacturers=this.manufacturerService.findAll();
         List<Category> categories=this.categoryService.findAll();
         model.addAttribute("user_types", UserType.values());
         model.addAttribute("regions",regions);
         model.addAttribute("categories",categories);
-        model.addAttribute("countries",countries);
+        model.addAttribute("giveawayRegion", giveawayRegion);
+        //model.addAttribute("countries",countries);
         model.addAttribute("manufacturers",manufacturers);
         return "add-giveaway";
+    }
+
+    @RequestMapping(value = "/countries", method = RequestMethod.GET)
+    public @ResponseBody
+    List<Country> findAllCountries(
+            @RequestParam(value = "id", required = true) Integer region_id) {
+        Region region = regionService.findById(region_id);
+        return region.getCountries();
     }
 
     @PostMapping("/add")
@@ -70,7 +80,8 @@ public class GiveawayController {
             HttpServletRequest request){
         Manufacturer manufacturer1=new Manufacturer(manufacturer);
         String username=request.getRemoteUser();
-        Award award1=new Award(award,manufacturer1);
+        User user= this.userService.findByUsername(username);
+        Award award1=new Award(award,manufacturer1, user);
         this.giveawayService.save(name,startdate,enddate,category_Id,award1.getId(), username,region_Id);
 
         return "redirect:/giveaway";
