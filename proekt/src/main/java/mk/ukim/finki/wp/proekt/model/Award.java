@@ -19,6 +19,7 @@ public class Award {
 
     private String url;
 
+    @Enumerated(EnumType.STRING)
     private AwardStatus status;
 
     @ManyToOne

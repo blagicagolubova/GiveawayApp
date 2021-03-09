@@ -25,10 +25,11 @@ public class GiveawayController {
     private final UserService userService;
     private final AwardService awardService;
     private final GiveawayRegionService giveawayRegionService;
+    private final CompanyService companyService;
 
 
 
-    public GiveawayController(GiveawayService giveawayService, RegionService regionService, CountryService countryService, ManufacturerService manufacturerService, CategoryService categoryService, UserService userService, AwardService awardService, GiveawayRegionService giveawayRegionService) {
+    public GiveawayController(GiveawayService giveawayService, RegionService regionService, CountryService countryService, ManufacturerService manufacturerService, CategoryService categoryService, UserService userService, AwardService awardService, GiveawayRegionService giveawayRegionService, CompanyService companyService) {
         this.giveawayService = giveawayService;
         this.regionService = regionService;
         this.countryService = countryService;
@@ -37,6 +38,7 @@ public class GiveawayController {
         this.userService = userService;
         this.awardService = awardService;
         this.giveawayRegionService = giveawayRegionService;
+        this.companyService = companyService;
     }
 
     @GetMapping
@@ -84,19 +86,29 @@ public class GiveawayController {
             @RequestParam Integer category,
             @RequestParam UserType user_type,
             @RequestParam(required = false) String companyName,
-                    @RequestParam(required = false) String address,
-                    @RequestParam(required = false) String desc,
-                    HttpServletRequest request) throws ParseException {
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String desc,
+            HttpServletRequest request) throws ParseException {
         Date start=new SimpleDateFormat("yyyy-MM-dd").parse(startdate);
         Date end=new SimpleDateFormat("yyyy-MM-dd").parse(enddate);
         String username=request.getRemoteUser();
-        User user= this.userService.findByUsername(username);
+        //User user= this.userService.findByUsername(username);
         GiveawayRegion giveawayRegion=this.giveawayRegionService.save(country);
         this.awardService.updateStatus(award,AwardStatus.ACTIVE);
-        this.giveawayService.save(name,start,end,category,award,username,giveawayRegion.getId());
+        if (user_type.equals(UserType.PRIVATE)) {
+            this.giveawayService.save(name, start, end, category, award, user_type, username, giveawayRegion.getId(), null);
+        }
+        else{
+            if(this.companyService.findBYName(companyName).isPresent()){
+                Integer cid = this.companyService.findBYName(companyName).get().getId();
+                this.giveawayService.save(name, start, end, category, award, user_type,username,giveawayRegion.getId(),cid);
+            }
+            else {
+                Company company=this.companyService.save(companyName,address,desc);
+                this.giveawayService.save(name, start, end, category, award, user_type,username,giveawayRegion.getId(),company.getId());
 
-        //Award award1=new Award(award,manufacturer1, user);
-        //this.giveawayService.save(name,startdate,enddate,category_Id,award1.getId(), username,region_Id);
+            }
+        }
 
         return "redirect:/giveaway";
     }

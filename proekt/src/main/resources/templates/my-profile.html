@@ -2,13 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Giveaway List</title>
+    <title>Giveaway | My Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 </head>
 <body>
 <!-- Navigation -->
@@ -23,50 +22,64 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/home">Home</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/giveaway">Active Giveaways</a>
+                </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/giveaway">Active Giveaways
+                    <a class="nav-link" href="/my-profile">My profile
                         <span class="sr-only">(current)</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/my-profile">My profile</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
+<dl class="dl-horizontal">
+    <dt>
+        Username:
+    </dt>
 
-<div class="container mb-4">
-    <br>
-    <br><br>
-    <div class="row">
-        <div class="col-12" th:if="${giveawayList.size() > 0}">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Giveaway name</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Award Name</th>
-                        <th scope="col">Creator</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="giveaway : ${giveawayList}" class="product">
-                        <td th:text="${giveaway.getName()}"></td>
-                        <td th:text="${giveaway.getStartDate()}"></td>
-                        <td th:text="${giveaway.getEndDate()}"></td>
-                        <td th:text="${giveaway.award.getName()}"></td>
-                        <td th:text="${giveaway.creator.getName()}"></td>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+    <dd th:text="${user.getUsername()}">
+
+    </dd>
+    <dt>
+        Name:
+    </dt>
+
+    <dd th:text="${user.getName()}">
+
+    </dd>
+    <dt>
+        Surname:
+    </dt>
+
+    <dd th:text="${user.getSurname()}">
+
+    </dd>
+
+    <dt>
+        Address:
+    </dt>
+
+    <dd th:text="${user.getAddress()}">
+
+    </dd>
+    <dt>
+        Email:
+    </dt>
+
+    <dd th:text="${user.getEmail()}">
+
+    </dd>
+    <dt>
+        Phone:
+    </dt>
+
+    <dd th:text="${user.getPhone()}">
+
+    </dd>
+
+</dl>
 </body>
 </html>

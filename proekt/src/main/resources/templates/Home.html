@@ -3,47 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Home | Giveaway</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+   <style>
+       body {
+           margin: 0;
+           font-family: Arial, Helvetica, sans-serif;
+       }
 
-        .topnav {
-            overflow: hidden;
-            background-color: #333;
-        }
+       .topnav {
+           overflow: hidden;
+           background-color: #333;
+       }
 
-        .topnav  a {
-            padding: 14px 16px;
-            color: #f2f2f2;
-            text-align: center;
-            text-decoration: none;
-            font-size: 17px;
-        }
+       .topnav  a {
+           padding: 14px 16px;
+           color: #f2f2f2;
+           text-align: center;
+           text-decoration: none;
+           font-size: 17px;
+       }
 
-        .topnav  a:hover {
-            background-color: #ddd;
-            color: black;
-        }
+       .topnav  a:hover {
+           background-color: #ddd;
+           color: black;
+       }
 
-        .topnav a.active {
-            background-color: red;
-            color: white;
-        }
-        .container{
+       .topnav a.active {
+           background-color: red;
+           color: white;
+       }
+       .container1{
 
-            width: 100%;
-            height: 700px;
-        }
-        .container .elements{
-            color:white;
-            margin-top: 10%;
-            margin-right: 10%;
-            padding: 1%;
-            font-size: 33px;
-            float: right;
-        }
+           width: 100%;
+           height: 700px;
+       }
+       .container1 .elements{
+           color:white;
+           margin-top: 10%;
+           margin-right: 10%;
+           padding: 1%;
+           font-size: 33px;
+           float: right;
+       }
         .button {
             background-color: #4CAF50; /* Green */
             border: none;
@@ -57,23 +57,49 @@
 
         }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top mb-2">
+    <div class="container">
+        <a class="navbar-brand" href="/home">Giveaway</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Home</a>
+                    <span class="sr-only">(current)</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/giveaway">Active Giveaways
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/my-profile">My profile</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="topnav">
     <div>
       <span style="float: left">
           <a style="float: left" href="#">Giveaway app</a>
       </span>
         <div style="float: right">
-            <a style="float: left" class="active" href="#home">Home</a>
-            <a style="float: left" href="#news">Giveaway List</a>
+            <a style="float: left" class="active" href="/home">Home</a>
+            <a style="float: left" href="/giveaway">Giveaway List</a>
             <a style="float: left" href="#contact">Contact</a>
-            <a style="float: left" href="#about">About</a>
+            <a style="float: left" href="/my-profile">My profile</a>
         </div>
     </div>
 </div>
 
-<div class="container" th:style="'background: url(https://www.publicdomainpictures.net/pictures/310000/velka/gift-boxes-background.jpg);'">
+<div class="container1" th:style="'background: url(https://www.publicdomainpictures.net/pictures/310000/velka/gift-boxes-background.jpg);'">
     <div class="elements" style="background: white; opacity: 0.8; border-radius: 25px;">
         <h2 style="font-family: 'Book Antiqua'; color: black">Giveaway app</h2>
         <p style="font-family: 'Book Antiqua'; color: black">Christmas spirit throughout whole year...<br>

@@ -5,6 +5,8 @@ import mk.ukim.finki.wp.proekt.repository.CompanyRepository;
 import mk.ukim.finki.wp.proekt.sevice.CompanyService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
@@ -23,6 +25,11 @@ public class CompanyServiceImpl implements CompanyService {
             //TODO:exception
             return null;
         }
+    }
+
+    @Override
+    public Optional<Company> findBYName(String name) {
+        return this.companyRepository.findByName(name);
     }
 
     @Override
