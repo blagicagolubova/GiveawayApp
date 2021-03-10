@@ -76,7 +76,7 @@
             </p>
             <div class="form-group">
                 <label for="manufacturer">Manufacturer</label>
-                <select id="manufacturer" name="manufacturer" class="form-control">
+                <select id="manufacturer" name="manufacturer" class="form-control" th:if="${manufacturers.size()} >= 1">
                     <option th:if="${award} != null"
                             th:selected="${award.getManufacturer() != null && award.getManufacturer().getId() == man.getId()}"
                             th:each="man : ${manufacturers}"
@@ -89,6 +89,9 @@
                             th:text="${man.getName()}">
                     </option>
                 </select>
+                <th-block th:if="${manufacturers.size()} == 0">
+                    <a type="button" class="btn btn-primary" href="/manufacturer/add-manu">Add Manufacturer</a>
+                </th-block>
             </div>
             <th-block th:if="${award} == null">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Add Award</button>
