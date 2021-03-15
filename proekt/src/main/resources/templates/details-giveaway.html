@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Details | Giveaway </title>
+</head>
+<body>
+<div th:if="${hasMessage}">
+    <h4 class="text-center text-danger" th:text="${message}"></h4>
+</div>
+
+<dl class="dl-horizontal">
+    <dd>
+        <img th:src="${giveaway.getAward().getUrl()}">
+    </dd>
+    <dt>
+        Giveaway Name:
+    </dt>
+
+    <dd th:text="${giveaway.getName()}">
+
+    </dd>
+    <dt>
+        Award Name:
+    </dt>
+
+    <dd th:text="${giveaway.getAward().getName()}">
+
+    </dd>
+    <dt>
+        Start Date:
+    </dt>
+
+    <dd th:text="${giveaway.getStartDate()}">
+
+    </dd>
+
+    <dt>
+        End Date:
+    </dt>
+
+    <dd th:text="${giveaway.getEndDate()}">
+
+    </dd>
+    <dt>
+        Number of Participants:
+    </dt>
+
+    <dd th:text="${giveaway.getParticipants().size()}">
+
+    </dd>
+
+</dl>
+
+<form th:method="post" th:action="@{'/giveaway/choosewinner/{id}' (id=${giveaway.getId()})}" th:if="${isCreator}==true and ${hasWinner}==null and ${isFinished}==true and ${NoParticipants}==null">
+    <button type="submit" class="btn btn-sm btn-danger">
+        <i class="fa fa-trash">Choose Winner!</i>
+    </button>
+</form>
+
+</body>
+</html>

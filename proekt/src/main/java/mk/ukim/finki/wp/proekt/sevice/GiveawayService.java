@@ -12,7 +12,31 @@ public interface GiveawayService {
 
     List<Giveaway> findAll();
 
+    List<Giveaway> findAvailableForParticipation(String username);
+
     Giveaway addParticipant(Integer giveaway_id,  String username);
 
-    Giveaway winner(Integer giveaway_id);
+    User winner(Integer giveaway_id);
+
+    List<Giveaway> myActiveGiveaways(String username);
+
+    List<Giveaway> myFinishedGiveaways(String username);
+
+    List<Giveaway> myGiveawaysWaitingForWinner(String username);
+
+    Giveaway findById(Integer id);
+
+    Boolean checkForParticipationInAGiveaway(Integer giveaway_id,  String username);
+
+    Boolean checkIfGiveawayHasWinner(Integer giveaway_id);
+
+    Boolean checkIfThereAreParticipantsInAGiveaway(Integer giveaway_id);
+
+    Boolean checkIfUserIsCreator(Integer giveaway_id,String username);
+
+    Boolean checkIfIsFinshed(Integer giveaway_id);
+
+    List<Giveaway> listByCategory(String search, String username);
+
+
 }

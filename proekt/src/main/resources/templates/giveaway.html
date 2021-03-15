@@ -35,38 +35,55 @@
         </div>
     </div>
 </nav>
+<div class="container">
+    <br><br><br>
+    <form>
+        <select id="categorySearch" name="categorySearch">
+            <option value="">All</option>
+            <option th:each="category:${categoryList}" th:value="${category.getName()}" th:text="${category.getName()}"> [menuType]</option>
+        </select>
+        <button id="filter" type="submit">Filter</button>
+    </form>
+</div>
+
+<div class="container mb-4 threeGrid">
+        <span th:if="${giveawayList.size() > 0}"  >
+
+            <span th:each="giveaway : ${giveawayList}" class="col-md-4" style="float: left">
+
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" th:src="${giveaway.getAward().getUrl()}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${giveaway.getName()}"></h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="${giveaway.getStartDate()}"></li>
+                        <li class="list-group-item" th:text="${giveaway.getEndDate()}"></li>
+                    </ul>
+                    <div class="card-body">
+                        <a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"
+                           class="btn btn-sm btn-info edit-product">
+                                        <i class="fa fa-trash">Details</i>
+                        </a>
 
 
-<div class="container mb-4">
-    <br>
-    <br><br>
-    <div class="row">
-        <div class="col-12" th:if="${giveawayList.size() > 0}">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Giveaway name</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Award Name</th>
-                        <th scope="col">Creator</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="giveaway : ${giveawayList}" class="product">
-                        <td th:text="${giveaway.getName()}"></td>
-                        <td th:text="${giveaway.getStartDate()}"></td>
-                        <td th:text="${giveaway.getEndDate()}"></td>
-                        <td th:text="${giveaway.award.getName()}"></td>
-                        <td th:text="${giveaway.creator.getName()}"></td>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                        <form th:action="@{'/giveaway/add-participant/{id}' (id=${giveaway.getId()})}" th:method="POST">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-primary cart-product">
+                                        <i class="fa fa-trash">Participate</i>
+                                    </button>
+                                </form>
+
+                    </div>
+                </div>
+
+            </span>
+
+
+        </span>
+
+
+
 </div>
 </body>
 </html>

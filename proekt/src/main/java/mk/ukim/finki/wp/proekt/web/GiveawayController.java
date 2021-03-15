@@ -42,9 +42,17 @@ public class GiveawayController {
     }
 
     @GetMapping
-    public String getGiveawayPage(Model model){
-        List<Giveaway> giveawayList=this.giveawayService.findAll();
-        model.addAttribute("giveawayList",giveawayList);
+    public String getGiveawayPage(@RequestParam(required = false) String categorySearch, Model model, HttpServletRequest request){
+        List<Giveaway> giveaways;
+        String username=request.getRemoteUser();
+        if(categorySearch==null){
+            giveaways=this.giveawayService.findAvailableForParticipation(username);
+        }
+        else {
+            giveaways=this.giveawayService.listByCategory(categorySearch, username);
+        }
+        model.addAttribute("categoryList", this.categoryService.findAll());
+        model.addAttribute("giveawayList", giveaways);
         return "giveaway";
     }
 
@@ -72,6 +80,61 @@ public class GiveawayController {
             @RequestParam(value = "region_id", required = true) Integer region_id) {
         Region region = regionService.findById(region_id);
         return region.getCountries();
+    }
+
+    @RequestMapping(value = "/details/{id}", method =RequestMethod.GET)
+    public String GiveawayDetails(@PathVariable Integer id, Model model,@RequestParam(required = false) String message, HttpServletRequest request){
+        if (message != null && !message.isEmpty()) {
+            model.addAttribute("hasMessage", true);
+            model.addAttribute("message", message);
+        }
+        if(this.giveawayService.checkIfGiveawayHasWinner(id)){
+            model.addAttribute("hasWinner",true);
+        }
+        if(!this.giveawayService.checkIfThereAreParticipantsInAGiveaway(id)){
+            model.addAttribute("NoParticipants",true);
+        }
+        model.addAttribute("isFinished", this.giveawayService.checkIfIsFinshed(id));
+
+        String username= request.getRemoteUser();
+        Boolean isCreator=this.giveawayService.checkIfUserIsCreator(id,username);
+        Giveaway giveaway=this.giveawayService.findById(id);
+        model.addAttribute("giveaway",giveaway);
+        model.addAttribute("isCreator", isCreator);
+        return "details-giveaway";
+    }
+
+    @RequestMapping(value = "/choose-winner/{id}", method =RequestMethod.GET)
+    public String ChooseWinner(@PathVariable Integer id, Model model){
+        Giveaway giveaway=this.giveawayService.findById(id);
+        model.addAttribute("giveaway",giveaway);
+        return "choose-winner";
+    }
+
+    @PostMapping("/add-participant/{id}")
+    public String addParticipant(@PathVariable Integer id, HttpServletRequest request, Model model){
+        String username= request.getRemoteUser();
+        if(this.giveawayService.checkForParticipationInAGiveaway(id,username)){
+            return "redirect:/giveaway/details/"+id+"?message=You have already set your participation for this giveaway";
+        }
+        else{
+            this.giveawayService.addParticipant(id,username);
+            return "redirect:/giveaway/details/"+id+"?message=You have successfully p articipate for this giveaway";
+        }
+
+    }
+
+    @PostMapping("/choosewinner/{id}")
+    public String chooseWiner(@PathVariable Integer id, Model model){
+        if(!this.giveawayService.checkIfGiveawayHasWinner(id)){
+            User user=this.giveawayService.winner(id);
+            model.addAttribute("winner",user);
+            return "choose-winner";
+        }
+        else{
+            return "details-giveaway";
+        }
+
     }
 
     @PostMapping("/add")
@@ -112,6 +175,8 @@ public class GiveawayController {
 
         return "redirect:/giveaway";
     }
+
+
 
 
 

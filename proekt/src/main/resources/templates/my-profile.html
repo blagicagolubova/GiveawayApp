@@ -81,5 +81,114 @@
     </dd>
 
 </dl>
+
+
+<div class="container mb-4">
+    <br>
+    <br><br>
+    <div class="row">
+        <div class="col-12" th:if="${giveawaysWaitingForWinner.size() > 0}">
+            <h3>My giveaways waiting for winner</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Giveaway name</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Award Name</th>
+                        <th scope="col">Creator</th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="giveaway : ${giveawaysWaitingForWinner}" class="product">
+                        <td th:text="${giveaway.getName()}"></td>
+                        <td th:text="${giveaway.getStartDate()}"></td>
+                        <td th:text="${giveaway.getEndDate()}"></td>
+                        <td th:text="${giveaway.award.getName()}"></td>
+                        <td th:text="${giveaway.creator.getName()}"></td>
+                        <td><a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"
+                               class="btn btn-sm btn-info edit-product">
+                            <i class="fa fa-trash">Details</i>
+                        </a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br><br>
+    <div class="row">
+        <div class="col-12" th:if="${activeGiveawayList.size() > 0}">
+            <h3>My active giveaways</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Giveaway name</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Award Name</th>
+                        <th scope="col">Creator</th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="giveaway : ${activeGiveawayList}" class="product">
+                        <td th:text="${giveaway.getName()}"></td>
+                        <td th:text="${giveaway.getStartDate()}"></td>
+                        <td th:text="${giveaway.getEndDate()}"></td>
+                        <td th:text="${giveaway.award.getName()}"></td>
+                        <td th:text="${giveaway.creator.getName()}"></td>
+                        <td><a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"
+                               class="btn btn-sm btn-info edit-product">
+                            <i class="fa fa-trash">Details</i>
+                        </a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br><br>
+    <div class="row">
+        <div class="col-12" th:if="${finishedGiveawayList.size() > 0}">
+            <h3>My finished giveaways</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Giveaway name</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Award Name</th>
+                        <th scope="col">Creator</th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="giveaway : ${finishedGiveawayList}" class="product">
+                        <td th:text="${giveaway.getName()}"></td>
+                        <td th:text="${giveaway.getStartDate()}"></td>
+                        <td th:text="${giveaway.getEndDate()}"></td>
+                        <td th:text="${giveaway.award.getName()}"></td>
+                        <td th:text="${giveaway.creator.getName()}"></td>
+                        <td><a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"
+                               class="btn btn-sm btn-info edit-product">
+                            <i class="fa fa-trash">Details</i>
+                        </a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -12,7 +12,7 @@ public class GiveawayRegion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER)
     List<Country> countries;
 
     public GiveawayRegion() {
