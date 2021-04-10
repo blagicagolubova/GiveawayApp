@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.proekt.sevice.impl;
 
 import mk.ukim.finki.wp.proekt.model.*;
+import mk.ukim.finki.wp.proekt.model.enumerations.GiveawayStatus;
 import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 import mk.ukim.finki.wp.proekt.repository.CategoryRepository;
 import mk.ukim.finki.wp.proekt.repository.CompanyRepository;
@@ -204,6 +205,17 @@ public class GiveawayServiceImpl implements GiveawayService {
             }
         }
         return availableByCategory;
+    }
+
+    @Override
+    public void refreshGiveawayStatus() {
+        List<Giveaway> giveawayList = this.findAll();
+        for (Giveaway giveaway : giveawayList) {
+            if (giveaway.getEndDate().before(Date.from(java.time.ZonedDateTime.now().toInstant()))){
+                giveaway.setStatus(GiveawayStatus.FINISHED);
+                this.giveawayRepository.save(giveaway);
+            }
+        }
     }
 
 

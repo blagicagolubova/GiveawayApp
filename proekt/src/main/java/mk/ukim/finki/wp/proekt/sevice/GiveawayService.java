@@ -38,5 +38,7 @@ public interface GiveawayService {
 
     List<Giveaway> listByCategory(String search, String username);
 
+    void refreshGiveawayStatus();
+
 
 }
