@@ -34,7 +34,7 @@ public interface GiveawayService {
 
     Boolean checkIfUserIsCreator(Integer giveaway_id,String username);
 
-    Boolean checkIfIsFinshed(Integer giveaway_id);
+    Boolean checkIfIsFinished(Integer giveaway_id);
 
     List<Giveaway> listByCategory(String search, String username);
 

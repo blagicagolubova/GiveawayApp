@@ -82,7 +82,7 @@ public class Giveaway {
         this.giveawayRegion = giveawayRegion;
     }
 
-    public Giveaway(String name, Date startDate, Date endDate, Category category, Award award, UserType userType, User creator, GiveawayRegion giveawayRegion) {
+    public Giveaway(String name, Date startDate, Date endDate, Category category, Award award, UserType userType, User creator, GiveawayRegion giveawayRegion, GiveawayStatus status) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -91,9 +91,10 @@ public class Giveaway {
         this.creator = creator;
         this.giveawayRegion = giveawayRegion;
         this.userType= userType;
+        this.status = status;
     }
 
-    public Giveaway(String name, Date startDate, Date endDate, Category category, Award award, UserType userType, User creator,Company company, GiveawayRegion giveawayRegion) {
+    public Giveaway(String name, Date startDate, Date endDate, Category category, Award award, UserType userType, User creator,Company company, GiveawayRegion giveawayRegion, GiveawayStatus status) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -103,6 +104,7 @@ public class Giveaway {
         this.giveawayRegion = giveawayRegion;
         this.userType=userType;
         this.company=company;
+        this.status = status;
     }
 
 

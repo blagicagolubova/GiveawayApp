@@ -4,7 +4,6 @@ import mk.ukim.finki.wp.proekt.model.Award;
 import mk.ukim.finki.wp.proekt.model.Manufacturer;
 import mk.ukim.finki.wp.proekt.sevice.AwardService;
 import mk.ukim.finki.wp.proekt.sevice.ManufacturerService;
-import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

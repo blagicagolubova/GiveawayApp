@@ -4,7 +4,6 @@ import mk.ukim.finki.wp.proekt.model.*;
 import mk.ukim.finki.wp.proekt.model.enumerations.GiveawayStatus;
 import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 import mk.ukim.finki.wp.proekt.repository.CategoryRepository;
-import mk.ukim.finki.wp.proekt.repository.CompanyRepository;
 import mk.ukim.finki.wp.proekt.repository.GiveawayRepository;
 import mk.ukim.finki.wp.proekt.sevice.*;
 import org.springframework.stereotype.Service;
@@ -21,16 +20,14 @@ public class GiveawayServiceImpl implements GiveawayService {
     private final CategoryRepository categoryRepository;
     private final AwardService awardService;
     private final GiveawayRegionService giveawayRegionService;
-    private final CompanyRepository companyRepository;
     private final CompanyService companyService;
 
-    public GiveawayServiceImpl(GiveawayRepository giveawayRepository, UserService userService, CategoryRepository categoryRepository, AwardService awardService, GiveawayRegionService giveawayRegionService, CompanyRepository companyRepository, CompanyService companyService) {
+    public GiveawayServiceImpl(GiveawayRepository giveawayRepository, UserService userService, CategoryRepository categoryRepository, AwardService awardService, GiveawayRegionService giveawayRegionService, CompanyService companyService) {
         this.giveawayRepository = giveawayRepository;
         this.userService = userService;
         this.categoryRepository = categoryRepository;
         this.awardService = awardService;
         this.giveawayRegionService = giveawayRegionService;
-        this.companyRepository = companyRepository;
         this.companyService = companyService;
     }
 
@@ -42,13 +39,25 @@ public class GiveawayServiceImpl implements GiveawayService {
             User user=this.userService.findByUsername(username);
             GiveawayRegion region=this.giveawayRegionService.findById(giveawayRegion_Id);
             if(company_id==null){
-                Giveaway giveaway= new Giveaway(name,startDate,endDate,category,award, userType,user,region);
-                return this.giveawayRepository.save(giveaway);
+                if (startDate.before(Date.from(java.time.ZonedDateTime.now().toInstant()))){
+                    Giveaway giveaway= new Giveaway(name,startDate,endDate,category,award, userType,user,region,GiveawayStatus.ACTIVE);
+                    return this.giveawayRepository.save(giveaway);
+                }
+                else {
+                    Giveaway giveaway= new Giveaway(name,startDate,endDate,category,award, userType,user,region,GiveawayStatus.PENDING);
+                    return this.giveawayRepository.save(giveaway);
+                }
             }
            else {
                Company company= this.companyService.findById(company_id);
-               Giveaway giveaway= new Giveaway(name,startDate,endDate,category,award, userType,user,company,region);
-               return this.giveawayRepository.save(giveaway);
+                if (startDate.before(Date.from(java.time.ZonedDateTime.now().toInstant()))){
+                    Giveaway giveaway= new Giveaway(name,startDate,endDate,category,award, userType,user,company,region, GiveawayStatus.ACTIVE);
+                    return this.giveawayRepository.save(giveaway);
+                }
+                else {
+                    Giveaway giveaway= new Giveaway(name,startDate,endDate,category,award, userType,user,company,region, GiveawayStatus.PENDING);
+                    return this.giveawayRepository.save(giveaway);
+                }
            }
         }
         else{
@@ -64,12 +73,10 @@ public class GiveawayServiceImpl implements GiveawayService {
 
     @Override
     public List<Giveaway> findAvailableForParticipation(String username) {
-        List<Giveaway> giveawayList = this.findAll();
+        List<Giveaway> giveawayList = this.giveawayRepository.findAllByStatus(GiveawayStatus.ACTIVE);
         List<Giveaway> list = new ArrayList<Giveaway>();
         for (Giveaway giveaway : giveawayList) {
-            if (!giveaway.getCreator().getUsername().equals(username)
-                    && giveaway.getStartDate().before(Date.from(java.time.ZonedDateTime.now().toInstant()))
-                    && giveaway.getEndDate().after(Date.from(java.time.ZonedDateTime.now().toInstant()))) {
+            if (!giveaway.getCreator().getUsername().equals(username)) {
                 list.add(giveaway);
             }
         }
@@ -107,12 +114,10 @@ public class GiveawayServiceImpl implements GiveawayService {
 
     @Override
     public List<Giveaway> myActiveGiveaways(String username) {
-        List<Giveaway> giveawayList = this.findAll();
+        List<Giveaway> giveawayList = this.giveawayRepository.findAllByStatus(GiveawayStatus.ACTIVE);
         List<Giveaway> list = new ArrayList<Giveaway>();
         for (Giveaway giveaway : giveawayList) {
-            if (giveaway.getCreator().getUsername().equals(username)
-                    && giveaway.getStartDate().before(Date.from(java.time.ZonedDateTime.now().toInstant()))
-                    && giveaway.getEndDate().after(Date.from(java.time.ZonedDateTime.now().toInstant()))) {
+            if (giveaway.getCreator().getUsername().equals(username)) {
                 list.add(giveaway);
             }
         }
@@ -121,7 +126,7 @@ public class GiveawayServiceImpl implements GiveawayService {
 
     @Override
     public List<Giveaway> myFinishedGiveaways(String username) {
-        List<Giveaway> giveawayList = this.findAll();
+        List<Giveaway> giveawayList = this.giveawayRepository.findAllByStatus(GiveawayStatus.FINISHED);
         List<Giveaway> list = new ArrayList<Giveaway>();
         for (Giveaway giveaway : giveawayList) {
             if (giveaway.getCreator().getUsername().equals(username)&&giveaway.getWinner()!=null) {
@@ -133,12 +138,10 @@ public class GiveawayServiceImpl implements GiveawayService {
 
     @Override
     public List<Giveaway> myGiveawaysWaitingForWinner(String username) {
-        List<Giveaway> giveawayList = this.findAll();
+        List<Giveaway> giveawayList = this.giveawayRepository.findAllByStatus(GiveawayStatus.FINISHED);
         List<Giveaway> list = new ArrayList<Giveaway>();
         for (Giveaway giveaway : giveawayList) {
-            if (giveaway.getCreator().getUsername().equals(username)
-                    &&giveaway.getWinner()==null
-                    && giveaway.getEndDate().before(Date.from(java.time.ZonedDateTime.now().toInstant()))) {
+            if (giveaway.getCreator().getUsername().equals(username) && giveaway.getWinner()==null) {
                 list.add(giveaway);
             }
         }
@@ -183,7 +186,7 @@ public class GiveawayServiceImpl implements GiveawayService {
     }
 
     @Override
-    public Boolean checkIfIsFinshed(Integer giveaway_id) {
+    public Boolean checkIfIsFinished(Integer giveaway_id) {
         Giveaway giveaway=this.findById(giveaway_id);
         if(giveaway.getWinner()==null
                 && giveaway.getEndDate().before(Date.from(java.time.ZonedDateTime.now().toInstant()))) {
@@ -213,6 +216,10 @@ public class GiveawayServiceImpl implements GiveawayService {
         for (Giveaway giveaway : giveawayList) {
             if (giveaway.getEndDate().before(Date.from(java.time.ZonedDateTime.now().toInstant()))){
                 giveaway.setStatus(GiveawayStatus.FINISHED);
+                this.giveawayRepository.save(giveaway);
+            }
+            else if (giveaway.getStartDate().before(Date.from(java.time.ZonedDateTime.now().toInstant()))){
+                giveaway.setStatus(GiveawayStatus.ACTIVE);
                 this.giveawayRepository.save(giveaway);
             }
         }

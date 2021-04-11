@@ -13,8 +13,7 @@ public class ScheduledTasks {
         this.giveawayService = giveawayService;
     }
 
-    //@Scheduled(cron = "")
-    @Scheduled(cron = "0 13 1 ? * *")
+    @Scheduled(cron = "0 1 0 ? * *")
     public void refreshGiveawayStatus(){
         giveawayService.refreshGiveawayStatus();
     }

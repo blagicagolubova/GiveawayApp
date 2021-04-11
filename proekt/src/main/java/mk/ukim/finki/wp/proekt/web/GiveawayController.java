@@ -94,7 +94,7 @@ public class GiveawayController {
         if(!this.giveawayService.checkIfThereAreParticipantsInAGiveaway(id)){
             model.addAttribute("NoParticipants",true);
         }
-        model.addAttribute("isFinished", this.giveawayService.checkIfIsFinshed(id));
+        model.addAttribute("isFinished", this.giveawayService.checkIfIsFinished(id));
 
         String username= request.getRemoteUser();
         Boolean isCreator=this.giveawayService.checkIfUserIsCreator(id,username);
