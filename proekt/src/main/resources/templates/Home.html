@@ -9,28 +9,6 @@
            font-family: Arial, Helvetica, sans-serif;
        }
 
-       .topnav {
-           overflow: hidden;
-           background-color: #333;
-       }
-
-       .topnav  a {
-           padding: 14px 16px;
-           color: #f2f2f2;
-           text-align: center;
-           text-decoration: none;
-           font-size: 17px;
-       }
-
-       .topnav  a:hover {
-           background-color: #ddd;
-           color: black;
-       }
-
-       .topnav a.active {
-           background-color: red;
-           color: white;
-       }
        .container1{
 
            width: 100%;
@@ -73,42 +51,38 @@
                     <a class="nav-link" href="/home">Home</a>
                     <span class="sr-only">(current)</span>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/giveaway">Active Giveaways
+                <th:block th:if="${username==null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Sign in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                </th:block>
+                <th:block th:if="${username!=null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/giveaway">Active Giveaways
 
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/awards">My Awards
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/awards">My Awards
 
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/my-profile">My profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">
-                        <i class="fa fa-shopping-cart"></i> Logout
-                    </a>
-                </li>
-
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/my-profile">My profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fa fa-shopping-cart"></i> Logout
+                        </a>
+                    </li>
+                </th:block>
             </ul>
         </div>
     </div>
 </nav>
-<div class="topnav">
-    <div>
-      <span style="float: left">
-          <a style="float: left" href="#">Giveaway app</a>
-      </span>
-        <div style="float: right">
-            <a style="float: left" class="active" href="/home">Home</a>
-            <a style="float: left" href="/giveaway">Giveaway List</a>
-            <a style="float: left" href="#contact">Contact</a>
-            <a style="float: left" href="/my-profile">My profile</a>
-        </div>
-    </div>
-</div>
 
 <div class="container1" th:style="'background: url(https://www.publicdomainpictures.net/pictures/310000/velka/gift-boxes-background.jpg);'">
     <div class="elements" style="background: white; opacity: 0.8; border-radius: 25px;">
@@ -131,6 +105,44 @@
             </form>
         </div>
     </div>
+</div>
+<div class="container justify-content-center">
+    <br>
+    <h2 class="text-center justify-content-center" >Most popular Giveaways</h2>
+    <br>
+</div>
+<div class="d-flex justify-content-center">
+<div class="container" style="margin-right: 14%">
+    <div class="row">
+        <span th:each="giveaway : ${giveawayList}">
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" th:src="${giveaway.getAward().getUrl()}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${giveaway.getName()}"></h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="${giveaway.getStartDate()}">Start Date:</li>
+                        <li class="list-group-item" th:text="${giveaway.getEndDate()}">End Date:</li>
+                    </ul>
+                    <div class="card-body">
+                        <a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"
+                           class="btn btn-sm btn-info edit-product">
+                            <i class="fa fa-trash">Details</i>
+                        </a>
+
+
+                        <form th:action="@{'/giveaway/add-participant/{id}' (id=${giveaway.getId()})}" th:method="POST">
+                            <button type="submit" class="btn btn-sm btn-primary cart-product">
+                                <i class="fa fa-trash">Participate</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </span>
+    </div>
+</div>
 </div>
 
 </body>

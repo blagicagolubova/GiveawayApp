@@ -5,6 +5,7 @@ import mk.ukim.finki.wp.proekt.model.*;
 import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
 import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 import mk.ukim.finki.wp.proekt.sevice.*;
+import mk.ukim.finki.wp.proekt.views.Top3;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,11 @@ public class HomeController {
 
 
     @GetMapping
-    public String getHomePage(){
+    public String getHomePage(Model model, HttpServletRequest request){
+        String username=request.getRemoteUser();
+        List<Giveaway> giveawayList=this.giveawayService.top3AvailableForParticipation(username);
+        model.addAttribute("giveawayList", giveawayList);
+        model.addAttribute("username", username);
         return "Home";
     }
 

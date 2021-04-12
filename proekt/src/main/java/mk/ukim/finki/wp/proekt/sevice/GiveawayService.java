@@ -14,6 +14,8 @@ public interface GiveawayService {
 
     List<Giveaway> findAvailableForParticipation(String username);
 
+    List<Giveaway> top3AvailableForParticipation(String username);
+
     Giveaway addParticipant(Integer giveaway_id,  String username);
 
     User winner(Integer giveaway_id);

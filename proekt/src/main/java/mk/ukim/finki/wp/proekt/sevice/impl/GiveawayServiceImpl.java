@@ -6,6 +6,7 @@ import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 import mk.ukim.finki.wp.proekt.repository.CategoryRepository;
 import mk.ukim.finki.wp.proekt.repository.GiveawayRepository;
 import mk.ukim.finki.wp.proekt.sevice.*;
+import mk.ukim.finki.wp.proekt.views.Top3;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -84,6 +85,41 @@ public class GiveawayServiceImpl implements GiveawayService {
     }
 
     @Override
+    public List<Giveaway> top3AvailableForParticipation(String username) {
+        List<Top3> top3s = giveawayRepository.getTOP3();
+        List<Giveaway> listtop3s = new ArrayList<Giveaway>();
+        for(Top3 top3 : top3s)
+        {
+            listtop3s.add(giveawayRepository.findById(top3.getID()).get());
+        }
+        int i=0;
+        List<Giveaway> list = new ArrayList<Giveaway>();
+        for (Giveaway giveaway : listtop3s) {
+            if (username!=null) {
+                if (!giveaway.getCreator().getUsername().equals(username)) {
+                    list.add(giveaway);
+                    i++;
+                }
+                if(i==3){
+                    break;
+                }
+
+            }
+            else
+            {
+                list.add(giveaway);
+                i++;
+                if(i==3){
+                    break;
+                }
+            }
+
+        }
+        return list;
+    }
+
+
+    @Override
     public Giveaway addParticipant(Integer giveaway_id, String username) {
         Giveaway giveaway = this.findById(giveaway_id);
         User user = this.userService.findByUsername(username);
@@ -129,10 +165,16 @@ public class GiveawayServiceImpl implements GiveawayService {
         List<Giveaway> giveawayList = this.giveawayRepository.findAllByStatus(GiveawayStatus.FINISHED);
         List<Giveaway> list = new ArrayList<Giveaway>();
         for (Giveaway giveaway : giveawayList) {
-            if (giveaway.getCreator().getUsername().equals(username)&&giveaway.getWinner()!=null) {
-                list.add(giveaway);
+            if (giveaway.getCreator().getUsername().equals(username)) {
+                if(giveaway.getWinner()!=null)
+                {
+                    list.add(giveaway);
+                }
+                else if(giveaway.getParticipants().size()==0){
+                    list.add(giveaway);
+                }
             }
-        }
+       }
         return list;
     }
 
@@ -142,7 +184,9 @@ public class GiveawayServiceImpl implements GiveawayService {
         List<Giveaway> list = new ArrayList<Giveaway>();
         for (Giveaway giveaway : giveawayList) {
             if (giveaway.getCreator().getUsername().equals(username) && giveaway.getWinner()==null) {
-                list.add(giveaway);
+                if(giveaway.getParticipants().size()!=0) {
+                    list.add(giveaway);
+                }
             }
         }
         return list;

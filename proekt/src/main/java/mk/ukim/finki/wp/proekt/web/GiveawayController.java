@@ -125,7 +125,7 @@ public class GiveawayController {
     }
 
     @PostMapping("/choosewinner/{id}")
-    public String chooseWiner(@PathVariable Integer id, Model model){
+    public String chooseWinner(@PathVariable Integer id, Model model){
         if(!this.giveawayService.checkIfGiveawayHasWinner(id)){
             User user=this.giveawayService.winner(id);
             model.addAttribute("winner",user);

@@ -49,6 +49,26 @@
     <dd th:text="${giveaway.getParticipants().size()}">
 
     </dd>
+    <dt th:if="!hasWinner">
+        Winner username:
+        </dt>
+    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getUsername()}">
+    </dd>
+    <dt th:if="!hasWinner">
+        Winner name:
+    </dt>
+    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getName()}">
+    </dd>
+    <dt th:if="!hasWinner">
+        Winner Surname:
+    </dt>
+    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getSurname()}">
+    </dd>
+    <dt th:if="!hasWinner">
+        Winner Email:
+    </dt>
+    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getEmail()}">
+    </dd>
 
 </dl>
 
