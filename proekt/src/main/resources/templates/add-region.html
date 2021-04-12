@@ -10,26 +10,66 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/home">Giveaway</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/giveaway">Active Giveaways</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/awards">My Awards
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/my-profile">My profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <i class="fa fa-shopping-cart"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br><br><br>
 <th:block xmlns:th="http://www.thymeleaf.org">
     <div class="container">
-        <form class="form-signin mt-xl-5" method="post" action="/region/add" >
+        <form class="form-signin mt-xl-5" method="post" action="/region/add">
             <h2 class="form-signin-heading">Add Region</h2>
             <p>
                 <label for="name" class="sr-only">Name</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Region Name" required="" autofocus="">
+                <input type="text" id="name" name="name" class="form-control" placeholder="Region Name"
+                       th:value="(${region} != null ? ${region.getName()} : '')"
+                       required="" autofocus="">
             </p>
             <label for="countries">Countries</label>
-            <select id="countries" name="countries" class="form-control" th:if="${countries.size()} >= 1" multiple="true">
-<!--                <option-->
-<!--                        th:each="country : ${countries}"-->
-<!--                        th:value="${country.getId()}"-->
-<!--                        th:text="${country.getName()}">-->
-<!--                </option>-->
-                <option
+            <select id="countries" name="countries" class="form-control" th:if="${countries.size()} >= 1" multiple="true" >
+                <option th:if="${region} == null"
                         th:each="country : ${countries}"
                         th:value="${country.getId()}"
                         th:text="${country.getName()}">
                 </option>
+                <option th:if="${region} != null"
+                        th:each="country : ${countries}"
+                        th:selected="${regionCountries.contains(country)}"
+                        th:value="${country.getId()}"
+                        th:text="${country.getName()}"
+                        >
+                </option>
+
             </select>
             <th-block>
                 <a type="button" class="btn btn-primary" href="/country/add-country">Add Country</a>

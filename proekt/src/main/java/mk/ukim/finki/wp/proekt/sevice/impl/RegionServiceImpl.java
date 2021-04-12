@@ -23,14 +23,20 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     public Region save(String name, List<Integer> country_ids) {
-        if (!name.isEmpty() && country_ids.size()>=1){
+        if (!name.isEmpty() && country_ids.size()>=1 && this.regionRepository.findByName(name)==null){
             List<Country> countries = this.countryService.findAllById(country_ids);
             Region region= new  Region(name, countries);
             return this.regionRepository.save(region);
-
+        }
+        else if(!name.isEmpty() && country_ids.size()>=1 && this.regionRepository.findByName(name)!=null){
+            Region region = this.regionRepository.findByName(name);
+            List<Country> countries = this.countryService.findAllById(country_ids);
+            region.setCountries(countries);
+            region.setName(name);
+            return this.regionRepository.save(region);
         }
         else{
-            //TODO: exception
+            //To-Do expetions
             return null;
         }
     }

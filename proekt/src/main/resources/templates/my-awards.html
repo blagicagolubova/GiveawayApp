@@ -27,13 +27,21 @@
                     <a class="nav-link" href="/giveaway">Active Giveaways</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/awards">My Awards</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/my-profile">My profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <i class="fa fa-shopping-cart"></i> Logout
+                    </a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
+<br/> <br/><br/>
 <div>
     <div class="container">
         <a href="/awards/add-award" class="btn btn-primary">Add new Award</a>
@@ -42,7 +50,7 @@
             You don't have awards.
         </p>
     </div>
-
+<br/>
     <div class="container" th:if="${awards.size()>0}">
         <div class="table-responsive">
             <table class="table table-striped">

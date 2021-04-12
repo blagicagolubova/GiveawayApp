@@ -79,8 +79,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/awards">My Awards
+
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/my-profile">My profile</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <i class="fa fa-shopping-cart"></i> Logout
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>
@@ -107,8 +118,17 @@
             Participate for countless giveaways! </p>
         <br>
         <div>
-            <button class="button" >Make a giveaway</button>
-            <button class="button" >Participate in a giveaway</button>
+            <form th:action="@{'/giveaway/add-giveaway'}" style="display: contents;">
+                <button type="submit"
+                        class="button">Make a giveaway
+                </button>
+            </form>
+
+            <form th:action="@{'/giveaway'}" style="display: contents;">
+                <button type="submit"
+                        class="button">Participate in a giveaway
+                </button>
+            </form>
         </div>
     </div>
 </div>

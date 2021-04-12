@@ -36,9 +36,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/giveaway">Active Giveaways</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/awards">My Awards
+                    </a>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/my-profile">My profile
                         <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <i class="fa fa-shopping-cart"></i> Logout
                     </a>
                 </li>
             </ul>
@@ -46,52 +55,58 @@
     </div>
 </nav>
 <div class="container">
-<dl class="dl-horizontal">
-    <dt>
+<br/><br/><br/>
+<h4>User Info:</h4>
+<div class="card-body">
+    <div class="card-text">
+<dl class="dl-horizontal row" style="border: 5px;border-style: inset;">
+    <dt class="col-sm-3 text-md-right">
         Username:
     </dt>
 
-    <dd th:text="${user.getUsername()}">
+    <dd class="col-sm-9" th:text="${user.getUsername()}">
 
     </dd>
-    <dt>
+    <dt class="col-sm-3 text-md-right">
         Name:
     </dt>
 
-    <dd th:text="${user.getName()}">
+    <dd  class="col-sm-9" th:text="${user.getName()}">
 
     </dd>
-    <dt>
+    <dt class="col-sm-3 text-md-right">
         Surname:
     </dt>
 
-    <dd th:text="${user.getSurname()}">
+    <dd class="col-sm-9" th:text="${user.getSurname()}">
 
     </dd>
 
-    <dt>
+    <dt class="col-sm-3 text-md-right">
         Address:
     </dt>
 
-    <dd th:text="${user.getAddress()}">
+    <dd  class="col-sm-9" th:text="${user.getAddress()}">
 
     </dd>
-    <dt>
+    <dt class="col-sm-3 text-md-right">
         Email:
     </dt>
 
-    <dd th:text="${user.getEmail()}">
+    <dd  class="col-sm-9" th:text="${user.getEmail()}">
 
     </dd>
-    <dt>
+    <dt class="col-sm-3 text-md-right">
         Phone:
     </dt>
 
-    <dd th:text="${user.getPhone()}">
+    <dd  class="col-sm-9" th:text="${user.getPhone()}">
 
     </dd>
 
 </dl>
+        </div>
+    </div>
 
 
 <div class="w3-bar w3-black">

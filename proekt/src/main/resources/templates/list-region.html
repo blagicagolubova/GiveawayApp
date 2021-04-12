@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Add Category</title>
+    <title>Regions</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<body>
+<body xmlns:th="http://www.thymeleaf.org">
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top mb-2">
     <div class="container">
         <a class="navbar-brand" href="/home">Giveaway</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +28,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/awards">My Awards
-
                     </a>
                 </li>
                 <li class="nav-item">
@@ -45,23 +42,45 @@
         </div>
     </div>
 </nav>
-<br><br><br>
-<th:block xmlns:th="http://www.thymeleaf.org">
+<br/><br/><br/>
+<div>
     <div class="container">
-        <form class="form-signin mt-xl-5" method="post" action="/category/add" >
-            <h2 class="form-signin-heading">Add Category</h2>
-            <p>
-                <label for="name" class="sr-only">Name</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Category Name" required="" autofocus="">
-            </p>
-            <p>
-                <label for="description" class="sr-only">Description</label>
-                <textarea id="description" name="description" rows="4" cols="50"></textarea>
-            </p>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Add Category</button>
-        </form>
+        <a href="/region/add-region" class="btn btn-primary">Add new Region</a>
 
+        <p th:if="${regions.size()<1}">
+            You don't have regions.
+        </p>
     </div>
-</th:block>
+<br/>
+    <div class="container" th:if="${regions.size()>0}">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Region Name</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="region : ${regions}">
+                    <td th:text="${region.getName()}"></td>
+                    <td class="text-right">
+<!--                        <form th:method="post" th:action="@{'awards/delete/{id}' (id=${award.getId()})}">-->
+<!--                            <button type="submit" class="btn btn-sm btn-danger">-->
+<!--                                <i class="fa fa-trash">Delete</i>-->
+<!--                            </button>-->
+<!--                        </form>-->
+
+                        <a class="btn btn-success" th:href="@{'/region/details/{id}' (id=${region.getId()})}"><i class="fa fa-trash">Edit</i></a>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>

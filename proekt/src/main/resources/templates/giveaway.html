@@ -29,7 +29,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/awards">My Awards
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/my-profile">My profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <i class="fa fa-shopping-cart"></i> Logout
+                    </a>
                 </li>
             </ul>
         </div>
@@ -39,13 +48,21 @@
     <br><br><br>
     <form>
         <select id="categorySearch" name="categorySearch">
-            <option value="">All</option>
-            <option th:each="category:${categoryList}" th:value="${category.getName()}" th:text="${category.getName()}"> [menuType]</option>
+            <option value="all">All</option>
+            <option th:each="category:${categoryList}" th:value="${category.getName()}" th:text="${category.getName()}"></option>
         </select>
-        <button id="filter" type="submit">Filter</button>
+        <button id="filter" type="submit" class="btn btn-success" style="height: 30px;font-size: 13px;width: 65px;margin-top: -0.5%;">Filter</button>
     </form>
 </div>
+<br/>
+<div class="container">
+    <a href="/giveaway/add-giveaway" class="btn btn-primary">Add new Giveaway</a>
 
+    <p th:if="${giveawayList.size()<1}">
+        You don't have giveaways to participate to.
+    </p>
+</div>
+<br/>
 <div class="container mb-4 threeGrid">
         <span th:if="${giveawayList.size() > 0}"  >
 
@@ -57,8 +74,8 @@
                         <h5 class="card-title" th:text="${giveaway.getName()}"></h5>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:text="${giveaway.getStartDate()}"></li>
-                        <li class="list-group-item" th:text="${giveaway.getEndDate()}"></li>
+                        <li class="list-group-item" th:text="${giveaway.getStartDate()}">Start Date:</li>
+                        <li class="list-group-item" th:text="${giveaway.getEndDate()}">End Date:</li>
                     </ul>
                     <div class="card-body">
                         <a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"

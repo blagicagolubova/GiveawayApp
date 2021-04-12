@@ -152,6 +152,7 @@ public class GiveawayController {
             @RequestParam(required = false) String address,
             @RequestParam(required = false) String desc,
             HttpServletRequest request) throws ParseException {
+        List<Integer> proba=country;
         Date start=new SimpleDateFormat("yyyy-MM-dd").parse(startdate);
         Date end=new SimpleDateFormat("yyyy-MM-dd").parse(enddate);
         String username=request.getRemoteUser();
