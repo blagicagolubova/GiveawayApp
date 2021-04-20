@@ -1,82 +1,143 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Details | Giveaway </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </head>
 <body>
-<div th:if="${hasMessage}">
-    <h4 class="text-center text-danger" th:text="${message}"></h4>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top mb-2">
+    <div class="container">
+        <a class="navbar-brand" href="/home">Giveaway</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Home</a>
+                    <span class="sr-only">(current)</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/giveaway">Active Giveaways
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/awards">My Awards
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/my-profile">My profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <i class="fa fa-shopping-cart"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br/><br/><br/>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h4>Giveaway Info:</h4>
+            <div th:if="${hasMessage}">
+                <h4 class="text-center text-danger" th:text="${message}"></h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+            <div class="card-img-top col-md-7">
+                <img th:src="${giveaway.getAward().getUrl()}">
+            </div>
+            <div class="card-text col-md-5">
+                <dl class="dl-horizontal row">
+                    <!--
+                    <dd>
+                        <img th:src="${giveaway.getAward().getUrl()}">
+                    </dd>-->
+                    <dt class="col-sm-4 text-md-right">
+                        Giveaway Name:
+                    </dt>
+
+                    <dd th:text="${giveaway.getName()}" class="col-sm-8">
+
+                    </dd>
+                    <dt class="col-sm-4 text-md-right">
+                        Award Name:
+                    </dt>
+
+                    <dd th:text="${giveaway.getAward().getName()}" class="col-sm-8">
+
+                    </dd>
+                    <dt class="col-sm-4 text-md-right">
+                        Start Date:
+                    </dt>
+
+                    <dd th:text="${giveaway.getStartDate()}" class="col-sm-8">
+
+                    </dd>
+
+                    <dt class="col-sm-4 text-md-right">
+                        End Date:
+                    </dt>
+
+                    <dd th:text="${giveaway.getEndDate()}" class="col-sm-8">
+
+                    </dd>
+                    <dt class="col-sm-4 text-md-right">
+                        Number of Participants:
+                    </dt>
+
+                    <dd th:text="${giveaway.getParticipants().size()}" class="col-sm-8">
+
+                    </dd>
+                    <dt th:if="!hasWinner" class="col-sm-4 text-md-right">
+                        Winner username:
+                        </dt>
+                    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getUsername()}" class="col-sm-8">
+                    </dd>
+                    <dt th:if="!hasWinner" class="col-sm-4 text-md-right">
+                        Winner name:
+                    </dt>
+                    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getName()}" class="col-sm-8">
+                    </dd>
+                    <dt th:if="!hasWinner" class="col-sm-4 text-md-right">
+                        Winner Surname:
+                    </dt>
+                    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getSurname()}" class="col-sm-8">
+                    </dd>
+                    <dt th:if="!hasWinner" class="col-sm-4 text-md-right">
+                        Winner Email:
+                    </dt>
+                    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getEmail()}" class="col-sm-8">
+                    </dd>
+                </dl>
+            </div>
+            </div>
+        </div>
+        <th:block th:if="${giveaway.getParticipants().size()>0}">
+        <div class="card-footer">
+            <form th:method="post" th:action="@{'/giveaway/choosewinner/{id}' (id=${giveaway.getId()})}" th:if="${isCreator}==true and ${hasWinner}==null and ${isFinished}==true and ${NoParticipants}==null">
+                <button type="submit" class="btn btn-sm btn-danger btn-block">
+                    <i class="fa fa-trash">Choose Winner!</i>
+                </button>
+            </form>
+        </div>
+        </th:block>
+    </div>
 </div>
 
-<dl class="dl-horizontal">
-    <dd>
-        <img th:src="${giveaway.getAward().getUrl()}">
-    </dd>
-    <dt>
-        Giveaway Name:
-    </dt>
 
-    <dd th:text="${giveaway.getName()}">
-
-    </dd>
-    <dt>
-        Award Name:
-    </dt>
-
-    <dd th:text="${giveaway.getAward().getName()}">
-
-    </dd>
-    <dt>
-        Start Date:
-    </dt>
-
-    <dd th:text="${giveaway.getStartDate()}">
-
-    </dd>
-
-    <dt>
-        End Date:
-    </dt>
-
-    <dd th:text="${giveaway.getEndDate()}">
-
-    </dd>
-    <dt>
-        Number of Participants:
-    </dt>
-
-    <dd th:text="${giveaway.getParticipants().size()}">
-
-    </dd>
-    <dt th:if="!hasWinner">
-        Winner username:
-        </dt>
-    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getUsername()}">
-    </dd>
-    <dt th:if="!hasWinner">
-        Winner name:
-    </dt>
-    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getName()}">
-    </dd>
-    <dt th:if="!hasWinner">
-        Winner Surname:
-    </dt>
-    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getSurname()}">
-    </dd>
-    <dt th:if="!hasWinner">
-        Winner Email:
-    </dt>
-    <dd th:if="!hasWinner" th:text="${giveaway.getWinner().getEmail()}">
-    </dd>
-
-</dl>
-
-<form th:method="post" th:action="@{'/giveaway/choosewinner/{id}' (id=${giveaway.getId()})}" th:if="${isCreator}==true and ${hasWinner}==null and ${isFinished}==true and ${NoParticipants}==null">
-    <button type="submit" class="btn btn-sm btn-danger">
-        <i class="fa fa-trash">Choose Winner!</i>
-    </button>
-</form>
 
 </body>
 </html>
