@@ -119,7 +119,7 @@ public class GiveawayController {
         }
         else{
             this.giveawayService.addParticipant(id,username);
-            return "redirect:/giveaway/details/"+id+"?message=You have successfully p articipate for this giveaway";
+            return "redirect:/giveaway/details/"+id+"?message=You have successfully participate for this giveaway";
         }
 
     }

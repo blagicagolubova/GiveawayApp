@@ -59,6 +59,7 @@
 <h4>User Info:</h4>
 <div class="card-body">
     <div class="card-text">
+        <form class="form-signin mt-xl-5" method="POST" th:action="@{'/my-profile/edit'}">
 <dl class="dl-horizontal row" style="border: 5px;border-style: inset;">
     <dt class="col-sm-3 text-md-right">
         Username:
@@ -71,45 +72,84 @@
         Name:
     </dt>
 
-    <dd  class="col-sm-9" th:text="${user.getName()}">
+    <dd  class="col-sm-9"  th:if="${editUser == false}" th:text="${user.getName()}"></dd>
+    <dd class="col-sm-9" th:if="${editUser == true}"> <input type="text"
+                                                             id="name"
+                                                             name="name"
+                                                             class="form-control"
+                                                             placeholder="Enter Name"
+                                                             th:value="${user?.getName()}"
+                                                             required="" autofocus=""></dd>
 
-    </dd>
     <dt class="col-sm-3 text-md-right">
         Surname:
     </dt>
 
-    <dd class="col-sm-9" th:text="${user.getSurname()}">
-
-    </dd>
-
+    <dd class="col-sm-9" th:if="${editUser == false}" th:text="${user.getSurname()}"></dd>
+    <dd class="col-sm-9" th:if="${editUser == true}"> <input type="text"
+                                          id="surname"
+                                          name="surname"
+                                          class="form-control"
+                                          placeholder="Enter Surname"
+                                          th:value="${user?.getSurname()}"
+                                          required="" autofocus=""></dd>
     <dt class="col-sm-3 text-md-right">
         Address:
     </dt>
 
-    <dd  class="col-sm-9" th:text="${user.getAddress()}">
+    <dd  class="col-sm-9" th:if="${editUser == false}" th:text="${user.getAddress()}"></dd>
+    <dd class="col-sm-9" th:if="${editUser == true}"> <input type="text"
+                                                             id="address"
+                                                             name="address"
+                                                             class="form-control"
+                                                             placeholder="Enter Address"
+                                                             th:value="${user?.getAddress()}"
+                                                             required="" autofocus=""></dd>
 
-    </dd>
     <dt class="col-sm-3 text-md-right">
         Email:
     </dt>
 
-    <dd  class="col-sm-9" th:text="${user.getEmail()}">
-
-    </dd>
+    <dd  class="col-sm-9" th:if="${editUser == false}"  th:text="${user.getEmail()}"></dd>
+    <dd class="col-sm-9" th:if="${editUser == true}"> <input type="text"
+                                                             id="email"
+                                                             name="email"
+                                                             class="form-control"
+                                                             placeholder="Enter Email"
+                                                             th:value="${user?.getEmail()}"
+                                                             required="" autofocus=""></dd>
     <dt class="col-sm-3 text-md-right">
         Phone:
     </dt>
 
-    <dd  class="col-sm-9" th:text="${user.getPhone()}">
-
+    <dd  class="col-sm-9" th:if="${editUser == false}"  th:text="${user.getPhone()}"></dd>
+    <dd class="col-sm-9" th:if="${editUser == true}"> <input type="text"
+                                                             id="phone"
+                                                             name="phone"
+                                                             class="form-control"
+                                                             placeholder="Enter Email"
+                                                             th:value="${user?.getPhone()}"
+                                                             required="" autofocus=""></dd>
+    <dt class="col-sm-3 text-md-right"></dt>
+    <dd>
+        <a th:href="@{'/my-profile/editbutton'}"
+           class="btn btn-sm btn-info edit-product">
+            <i class="fa fa-trash">Edit</i>
+        </a>
+    </dd>
+    <dd style="margin-left: 1%;">
+    <th-block th:if="${editUser == true}">
+    <button class="btn btn-sm btn-block btn-success" type="submit">Save Changes</button>
+    </th-block>
     </dd>
 
 </dl>
+        </form>
         </div>
-    </div>
+</div>
 
 
-<div class="w3-bar w3-black">
+<div class="w3-bar w3-black" style="background-color: #7fba94!important;">
     <button class="w3-bar-item w3-button" onclick="openCity('London')">My giveaways waiting for winner</button>
     <button class="w3-bar-item w3-button" onclick="openCity('Paris')">My active giveaways</button>
     <button class="w3-bar-item w3-button" onclick="openCity('Tokyo')">My finished giveaways</button>
@@ -135,8 +175,8 @@
                     <tbody>
                     <tr th:each="giveaway : ${giveawaysWaitingForWinner}" class="product">
                         <td th:text="${giveaway.getName()}"></td>
-                        <td th:text="${giveaway.getStartDate()}"></td>
-                        <td th:text="${giveaway.getEndDate()}"></td>
+                        <td th:text="${#dates.format(giveaway.getStartDate(), 'dd-MM-yyyy')}"></td>
+                        <td th:text="${#dates.format(giveaway.getEndDate(), 'dd-MM-yyyy')}"></td>
                         <td th:text="${giveaway.award.getName()}"></td>
                         <td th:text="${giveaway.creator.getName()}"></td>
                         <td><a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"
@@ -171,8 +211,8 @@
                     <tbody>
                     <tr th:each="giveaway : ${activeGiveawayList}" class="product">
                         <td th:text="${giveaway.getName()}"></td>
-                        <td th:text="${giveaway.getStartDate()}"></td>
-                        <td th:text="${giveaway.getEndDate()}"></td>
+                        <td th:text="${#dates.format(giveaway.getStartDate(), 'dd-MM-yyyy')}"></td>
+                        <td th:text="${#dates.format(giveaway.getEndDate(), 'dd-MM-yyyy')}"></td>
                         <td th:text="${giveaway.award.getName()}"></td>
                         <td th:text="${giveaway.creator.getName()}"></td>
                         <td><a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"
@@ -207,8 +247,8 @@
                     <tbody>
                     <tr th:each="giveaway : ${finishedGiveawayList}" class="product">
                         <td th:text="${giveaway.getName()}"></td>
-                        <td th:text="${giveaway.getStartDate()}"></td>
-                        <td th:text="${giveaway.getEndDate()}"></td>
+                        <td th:text="${#dates.format(giveaway.getStartDate(), 'dd-MM-yyyy')}"></td>
+                        <td th:text="${#dates.format(giveaway.getEndDate(), 'dd-MM-yyyy')}"></td>
                         <td th:text="${giveaway.award.getName()}"></td>
                         <td th:text="${giveaway.creator.getName()}"></td>
                         <td><a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"

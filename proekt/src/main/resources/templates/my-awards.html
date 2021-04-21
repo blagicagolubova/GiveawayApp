@@ -67,15 +67,14 @@
                     <td th:text="${award.getName()}"></td>
                     <td th:text="${award.getWeight()}"></td>
                     <td th:text="${award.getManufacturer() != null} ? ${award.getManufacturer().getName()} : 'No Manufacturer'"></td>
-                    <td class="text-right">
+                    <td class="text-right" style="display: inline-flex;">
+                        <a class="btn btn-sm btn-block btn-info" th:href="@{'/awards/edit-form/{id}' (id=${award.getId()})}"><i class="fa fa-info">Edit</i></a>
+
                         <form th:method="post" th:action="@{'awards/delete/{id}' (id=${award.getId()})}">
-                            <button type="submit" class="btn btn-sm btn-danger">
+                            <button type="submit" class="btn btn-sm btn-danger" style="margin-left: 20%;">
                                 <i class="fa fa-trash">Delete</i>
                             </button>
                         </form>
-
-                        <a class="btn btn-success" th:href="@{'/awards/edit-form/{id}' (id=${award.getId()})}"><i class="fa fa-trash">Edit</i></a>
-
                     </td>
                 </tr>
                 </tbody>

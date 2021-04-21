@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -54,11 +55,50 @@ public class HomeController {
         List<Giveaway> finishedGiveawayList = this.giveawayService.myFinishedGiveaways(username);
         List<Giveaway> giveawaysWaitingForWinner = this.giveawayService.myGiveawaysWaitingForWinner(username);
         model.addAttribute("user",user);
+        model.addAttribute("editUser",false);
         model.addAttribute("activeGiveawayList",activeGiveawayList);
         model.addAttribute("finishedGiveawayList",finishedGiveawayList);
         model.addAttribute("giveawaysWaitingForWinner",giveawaysWaitingForWinner);
 
-
         return "my-profile";
     }
+
+    @GetMapping("my-profile/editbutton")
+    public String buttonEdit(Model model, HttpServletRequest request){
+        model.addAttribute("editUser",true);
+        String username=request.getRemoteUser();
+        User user=this.userService.findByUsername(username);
+        List<Giveaway> activeGiveawayList = this.giveawayService.myActiveGiveaways(username);
+        List<Giveaway> finishedGiveawayList = this.giveawayService.myFinishedGiveaways(username);
+        List<Giveaway> giveawaysWaitingForWinner = this.giveawayService.myGiveawaysWaitingForWinner(username);
+        model.addAttribute("user",user);
+        model.addAttribute("activeGiveawayList",activeGiveawayList);
+        model.addAttribute("finishedGiveawayList",finishedGiveawayList);
+        model.addAttribute("giveawaysWaitingForWinner",giveawaysWaitingForWinner);
+        return "my-profile";
+    }
+
+    @PostMapping("my-profile/edit")
+    public String editProfilePage(@RequestParam String name,
+                                  @RequestParam String surname,
+                                  @RequestParam String address,
+                                  @RequestParam String email,
+                                  @RequestParam String phone,
+                                  Model model,
+                                  HttpServletRequest request){
+        String username=request.getRemoteUser();
+        this.userService.update(username,name,surname,address,phone,email);
+        model.addAttribute("editUser",false);
+        User user=this.userService.findByUsername(username);
+        List<Giveaway> activeGiveawayList = this.giveawayService.myActiveGiveaways(username);
+        List<Giveaway> finishedGiveawayList = this.giveawayService.myFinishedGiveaways(username);
+        List<Giveaway> giveawaysWaitingForWinner = this.giveawayService.myGiveawaysWaitingForWinner(username);
+        model.addAttribute("user",user);
+        model.addAttribute("activeGiveawayList",activeGiveawayList);
+        model.addAttribute("finishedGiveawayList",finishedGiveawayList);
+        model.addAttribute("giveawaysWaitingForWinner",giveawaysWaitingForWinner);
+        return "my-profile";
+    }
+
+
 }

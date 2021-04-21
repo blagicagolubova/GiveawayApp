@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <!-- Navigation -->
@@ -69,15 +69,15 @@
             <span th:each="giveaway : ${giveawayList}" class="col-md-4" style="float: left">
 
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" th:src="${giveaway.getAward().getUrl()}" alt="Card image cap">
+                    <img class="card-img-top" th:src="${giveaway.getAward().getUrl()}" alt="Card image cap" style="height: 220px;">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${giveaway.getName()}"></h5>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:text="${giveaway.getStartDate()}">Start Date:</li>
-                        <li class="list-group-item" th:text="${giveaway.getEndDate()}">End Date:</li>
+                        <li class="list-group-item" th:text="| Start Date: ${#dates.format(giveaway.getStartDate(), 'dd-MM-yyyy')}|"></li>
+                        <li class="list-group-item" th:text="| End Date: ${#dates.format(giveaway.getEndDate(), 'dd-MM-yyyy')}|"></li>
                     </ul>
-                    <div class="card-body">
+                    <div class="card-body" style="display: inline-flex;">
                         <a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"
                            class="btn btn-sm btn-info edit-product">
                                         <i class="fa fa-trash">Details</i>
@@ -85,7 +85,7 @@
 
 
                         <form th:action="@{'/giveaway/add-participant/{id}' (id=${giveaway.getId()})}" th:method="POST">
-                            <button type="submit" class="btn btn-sm btn-primary cart-product">
+                            <button type="submit" class="btn btn-sm btn-primary cart-product" style="margin-left: 9%;">
                                 <i class="fa fa-trash">Participate</i>
                             </button>
                         </form>

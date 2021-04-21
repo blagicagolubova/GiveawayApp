@@ -42,6 +42,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User update(String username, String name, String surname, String address, String phone, String email) {
+        if( username==null || username.isEmpty()){
+            throw new InvalidArgumentException();
+        }
+        User user=this.userRepository.findById(username).get();
+        user.setName(name);
+        user.setSurname(surname);
+        user.setAddress(address);
+        user.setPhone(phone);
+        user.setEmail(email);
+        return this.userRepository.save(user);
+    }
+
+    @Override
     public User findByUsername(String username) {
         if (username!=null && !username.isEmpty() && this.userRepository.findById(username).isPresent()){
             return this.userRepository.findById(username).get();
