@@ -2,6 +2,7 @@ package mk.ukim.finki.wp.proekt.web;
 
 import mk.ukim.finki.wp.proekt.model.Award;
 import mk.ukim.finki.wp.proekt.model.Manufacturer;
+import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
 import mk.ukim.finki.wp.proekt.sevice.AwardService;
 import mk.ukim.finki.wp.proekt.sevice.ManufacturerService;
 import org.springframework.stereotype.Controller;
@@ -28,16 +29,23 @@ public class AwardController {
     public String getAwardsPage(Model model, HttpServletRequest req){
         String username=req.getRemoteUser();
         List<Award> awards=awardService.findAllByCreator(username);
+        AwardStatus status=AwardStatus.DEACTIVE;
         model.addAttribute("awards", awards);
-        return "my-awards";
+        model.addAttribute("status", status);
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","my-awards");
+        return "master-template";
 
     }
 
     @GetMapping("/add-award")
-    public String addAwardPage(Model model){
+    public String addAwardPage(Model model,HttpServletRequest req){
+        String username=req.getRemoteUser();
         List<Manufacturer> manufacturers=this.manufacturerService.findAll();
         model.addAttribute("manufacturers", manufacturers);
-        return "add-award";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","add-award");
+        return "master-template";
     }
 
     @PostMapping("/add")
@@ -64,12 +72,15 @@ public class AwardController {
     }
 
     @GetMapping("/edit-form/{id}")
-    public String getEditPage(@PathVariable Integer id, Model model){
+    public String getEditPage(@PathVariable Integer id, Model model,HttpServletRequest req){
         Award award=this.awardService.findById(id);
+        String username=req.getRemoteUser();
         List<Manufacturer> manufacturers=this.manufacturerService.findAll();
         model.addAttribute("manufacturers", manufacturers);
         model.addAttribute("award", award);
-        return "add-award";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","add-award");
+        return "master-template";
     }
 
     @PostMapping("/delete/{id}")

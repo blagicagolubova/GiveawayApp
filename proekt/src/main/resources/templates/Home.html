@@ -1,127 +1,43 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Home | Giveaway</title>
-   <style>
-       html {
-           scroll-behavior: smooth;
-       }
-       body {
-           margin: 0;
-           font-family: Arial, Helvetica, sans-serif;
-       }
-
-       .container1{
-
-           width: 100%;
-           height: 700px;
-       }
-       .container1 .elements{
-           color:white;
-           margin-top: 12%;
-           margin-right: 10%;
-           padding: 1%;
-           font-size: 33px;
-           float: right;
-       }
-        .button {
-            background-color: #299f44; /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 25px;
-
-        }
-    </style>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top mb-2">
-    <div class="container">
-        <a class="navbar-brand" href="/home">Giveaway</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/home">Home</a>
-                    <span class="sr-only">(current)</span>
-                </li>
-                <th:block th:if="${username==null}">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Sign in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
-                    </li>
-                </th:block>
-                <th:block th:if="${username!=null}">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/giveaway">Active Giveaways
+<div xmlns:th="http://www.thymeleaf.org">
 
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/awards">My Awards
-
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/my-profile">My profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">
-                            <i class="fa fa-shopping-cart"></i> Logout
-                        </a>
-                    </li>
-                </th:block>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container1"  id="section1" th:style="'background: url(https://nerdoutapp.com/wp-content/uploads/2018/03/Giveaways.jpg); background-repeat: no-repeat, repeat; background-size: cover;'">
-    <div class="elements" style="background: white; opacity: 0.8; border-radius: 25px;">
-        <a href="#section2" style="color: #299f44;">TOP 3 GIVEAWAYS</a>
-        <h2 style="font-family: 'Book Antiqua'; color: black">Giveaway app</h2>
-        <p style="font-family: 'Book Antiqua'; color: black">Christmas spirit throughout whole year...<br>
+    <div class="container1"  id="section1" th:style="'background: url(https://nerdoutapp.com/wp-content/uploads/2018/03/Giveaways.jpg); background-repeat: no-repeat, repeat; background-size: cover;'">
+        <div class="elements" style="background: white; opacity: 0.8; border-radius: 25px;">
+            <a href="#section2" style="color: #299f44;">TOP 3 GIVEAWAYS</a>
+            <h2 style="font-family: 'Book Antiqua'; color: black">Giveaway app</h2>
+            <p style="font-family: 'Book Antiqua'; color: black">Christmas spirit throughout whole year...<br>
             Make someone happy, make a giveaway!<br>
             Participate for countless giveaways! </p>
-        <br>
-        <div>
-            <form th:action="@{'/giveaway/add-giveaway'}" style="display: contents;">
-                <button type="submit"
-                        class="button">Make a giveaway
-                </button>
-            </form>
+            <br>
+            <div>
+                <form th:action="@{'/giveaway/add-giveaway'}" style="display: contents;">
+                    <button type="submit"
+                            class="button">Make a giveaway
+                    </button>
+                </form>
 
-            <form th:action="@{'/giveaway'}" style="display: contents;">
-                <button type="submit"
-                        class="button">Participate in a giveaway
-                </button>
-            </form>
+                <form th:action="@{'/giveaway'}" style="display: contents;">
+                    <button type="submit"
+                            class="button">Participate in a giveaway
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<div class="container justify-content-center">
-    <br>
-    <h2 class="text-center justify-content-center" >Most popular Giveaways</h2>
-    <br>
-</div>
-<div class="d-flex justify-content-center" id="section2">
-<div class="container" style="margin-right: 14%">
-    <div class="row">
-        <span th:each="giveaway : ${giveawayList}">
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" th:src="${giveaway.getAward().getUrl()}" alt="Card image cap" style="height: 220px;">
+    <div class="container justify-content-center">
+        <br>
+        <h2 class="text-center justify-content-center" >Most popular Giveaways</h2>
+        <br>
+    </div>
+    <div class="d-flex justify-content-center" id="section2">
+    <div class="container" style="margin-right: 14%">
+        <div class="row">
+            <span th:each="giveaway : ${giveawayList}">
+                <div class="col-md-4">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" th:src="${giveaway.getAward().getUrl()}" alt="Card image cap" style="height: 220px;">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${giveaway.getName()}"></h5>
                     </div>
@@ -146,8 +62,6 @@
             </div>
         </span>
     </div>
+    </div>
+    </div>
 </div>
-</div>
-
-</body>
-</html>

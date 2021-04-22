@@ -53,13 +53,17 @@ public class GiveawayController {
         }
         model.addAttribute("categoryList", this.categoryService.findAll());
         model.addAttribute("giveawayList", giveaways);
-        return "giveaway";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","giveaway");
+        return "master-template";
     }
 
     @GetMapping("/add-giveaway")
     public String addGiveawayPage(Model model,
                                   @ModelAttribute("region") Region region,
-                                  @ModelAttribute("country") Country country){
+                                  @ModelAttribute("country") Country country,
+                                  HttpServletRequest request){
+        String username=request.getRemoteUser();
         GiveawayRegion giveawayRegion=new GiveawayRegion();
         List<Region> regions=this.regionService.findAll();
         List<Award> awards= this.awardService.findAllByStatus(AwardStatus.DEACTIVE);
@@ -71,7 +75,9 @@ public class GiveawayController {
         model.addAttribute("giveawayRegion", giveawayRegion);
         model.addAttribute("awards", awards);
         model.addAttribute("manufacturers",manufacturers);
-        return "add-giveaway";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","add-giveaway");
+        return "master-template";
     }
 
     @RequestMapping(value = "/countries", method = RequestMethod.GET)
@@ -101,18 +107,23 @@ public class GiveawayController {
         Giveaway giveaway=this.giveawayService.findById(id);
         model.addAttribute("giveaway",giveaway);
         model.addAttribute("isCreator", isCreator);
-        return "details-giveaway";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","details-giveaway");
+        return "master-template";
     }
 
     @RequestMapping(value = "/choose-winner/{id}", method =RequestMethod.GET)
-    public String ChooseWinner(@PathVariable Integer id, Model model){
+    public String ChooseWinner(@PathVariable Integer id, Model model,HttpServletRequest request){
         Giveaway giveaway=this.giveawayService.findById(id);
+        String username= request.getRemoteUser();
         model.addAttribute("giveaway",giveaway);
-        return "choose-winner";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","choose-winner");
+        return "master-template";
     }
 
     @PostMapping("/add-participant/{id}")
-    public String addParticipant(@PathVariable Integer id, HttpServletRequest request, Model model){
+    public String addParticipant(@PathVariable Integer id, HttpServletRequest request){
         String username= request.getRemoteUser();
         if(this.giveawayService.checkForParticipationInAGiveaway(id,username)){
             return "redirect:/giveaway/details/"+id+"?message=You have already set your participation for this giveaway";

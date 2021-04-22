@@ -22,8 +22,11 @@ public class CategoryController {
     }
 
     @GetMapping("/add-category")
-    public String addCategoryPage(Model model){
-        return "add-category";
+    public String addCategoryPage(Model model,HttpServletRequest req){
+        String username=req.getRemoteUser();
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","add-category");
+        return "master-template";
     }
 
     @PostMapping("/add")

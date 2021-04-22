@@ -26,18 +26,24 @@ public class RegionController {
     }
 
     @GetMapping
-    public String getRegionPage(Model model){
+    public String getRegionPage(Model model,HttpServletRequest request){
+        String username=request.getRemoteUser();
         List<Region> regions = this.regionService.findAll();
         model.addAttribute("regions",regions);
-        return "list-region";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","list-region");
+        return "master-template";
     }
 
 
     @GetMapping("/add-region")
-    public String addRegionPage(Model model){
+    public String addRegionPage(Model model,HttpServletRequest request){
+        String username=request.getRemoteUser();
         List<Country> countries= this.countryService.findAll();
         model.addAttribute("countries",countries);
-        return "add-region";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","add-region");
+        return "master-template";
     }
 
     @PostMapping("/add")
@@ -50,13 +56,16 @@ public class RegionController {
     }
 
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
-    public String editRegion(@PathVariable Integer id, Model model){
+    public String editRegion(@PathVariable Integer id, Model model, HttpServletRequest request){
+        String username=request.getRemoteUser();
         Region region=this.regionService.findById(id);
         List<Country> regionCountries=region.getCountries();
         List<Country> countries=this.countryService.findAll();
         model.addAttribute("region", region);
         model.addAttribute("regionCountries",regionCountries);
         model.addAttribute("countries",countries);
-        return "add-region";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","add-region");
+        return "master-template";
     }
 }

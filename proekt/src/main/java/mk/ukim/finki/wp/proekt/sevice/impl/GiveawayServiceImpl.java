@@ -22,14 +22,16 @@ public class GiveawayServiceImpl implements GiveawayService {
     private final AwardService awardService;
     private final GiveawayRegionService giveawayRegionService;
     private final CompanyService companyService;
+    private final EmailService emailService;
 
-    public GiveawayServiceImpl(GiveawayRepository giveawayRepository, UserService userService, CategoryRepository categoryRepository, AwardService awardService, GiveawayRegionService giveawayRegionService, CompanyService companyService) {
+    public GiveawayServiceImpl(GiveawayRepository giveawayRepository, UserService userService, CategoryRepository categoryRepository, AwardService awardService, GiveawayRegionService giveawayRegionService, CompanyService companyService, EmailService emailService) {
         this.giveawayRepository = giveawayRepository;
         this.userService = userService;
         this.categoryRepository = categoryRepository;
         this.awardService = awardService;
         this.giveawayRegionService = giveawayRegionService;
         this.companyService = companyService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -96,7 +98,7 @@ public class GiveawayServiceImpl implements GiveawayService {
         List<Giveaway> list = new ArrayList<Giveaway>();
         for (Giveaway giveaway : listtop3s) {
             if (username!=null) {
-                if (!giveaway.getCreator().getUsername().equals(username)) {
+                if (!giveaway.getCreator().getUsername().equals(username)) {//&&givaways.status==active
                     list.add(giveaway);
                     i++;
                 }
@@ -139,6 +141,7 @@ public class GiveawayServiceImpl implements GiveawayService {
         if(participantList.size()>0){
            User winner =  participantList.get(randomizer.nextInt(participantList.size()));
            giveaway.setWinner(winner);
+           //  this.emailService.sendSimpleMessage(winner.getEmail(), "Giveaway winner", "You are winner for giveaway with name"+ giveaway.getName());
            this.giveawayRepository.save(giveaway);
            return winner;
         }

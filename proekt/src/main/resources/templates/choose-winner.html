@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
     <title>Winner | Giveaway</title>
 </head>
-<body>
+<div xmlns:th="http://www.thymeleaf.org">
 <h1>The Winner is: </h1>
 <input type="text"
        id="winner"
@@ -13,5 +11,4 @@
        placeholder="Name"
        th:value="${winner.getName()}"
        required="" autofocus="">
-</body>
-</html>
+</div>

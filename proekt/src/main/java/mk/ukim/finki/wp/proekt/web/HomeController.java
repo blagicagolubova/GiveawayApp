@@ -43,7 +43,8 @@ public class HomeController {
         List<Giveaway> giveawayList=this.giveawayService.top3AvailableForParticipation(username);
         model.addAttribute("giveawayList", giveawayList);
         model.addAttribute("username", username);
-        return "Home";
+        model.addAttribute("bodyContent","Home");
+        return "master-template";
     }
 
 
@@ -59,8 +60,9 @@ public class HomeController {
         model.addAttribute("activeGiveawayList",activeGiveawayList);
         model.addAttribute("finishedGiveawayList",finishedGiveawayList);
         model.addAttribute("giveawaysWaitingForWinner",giveawaysWaitingForWinner);
-
-        return "my-profile";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","my-profile");
+        return "master-template";
     }
 
     @GetMapping("my-profile/editbutton")
@@ -75,7 +77,9 @@ public class HomeController {
         model.addAttribute("activeGiveawayList",activeGiveawayList);
         model.addAttribute("finishedGiveawayList",finishedGiveawayList);
         model.addAttribute("giveawaysWaitingForWinner",giveawaysWaitingForWinner);
-        return "my-profile";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","my-profile");
+        return "master-template";
     }
 
     @PostMapping("my-profile/edit")
@@ -97,7 +101,9 @@ public class HomeController {
         model.addAttribute("activeGiveawayList",activeGiveawayList);
         model.addAttribute("finishedGiveawayList",finishedGiveawayList);
         model.addAttribute("giveawaysWaitingForWinner",giveawaysWaitingForWinner);
-        return "my-profile";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","my-profile");
+        return "master-template";
     }
 
 

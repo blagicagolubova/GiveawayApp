@@ -24,8 +24,11 @@ public class ManufacturerController {
 
 
     @GetMapping("/add-manu")
-    public String addManufacturerPage(Model model){
-        return "add-manu";
+    public String addManufacturerPage(Model model,HttpServletRequest req){
+        String username=req.getRemoteUser();
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","add-manu");
+        return "master-template";
     }
 
     @PostMapping("/add")

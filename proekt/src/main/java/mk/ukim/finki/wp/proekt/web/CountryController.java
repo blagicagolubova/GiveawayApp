@@ -22,9 +22,12 @@ public class CountryController {
     }
 
     @GetMapping("/add-country")
-    public String addCountryPage(Model model){
+    public String addCountryPage(Model model,HttpServletRequest request){
+        String username=request.getRemoteUser();
         model.addAttribute("continentList", Continent.values());
-        return "add-country";
+        model.addAttribute("username", username);
+        model.addAttribute("bodyContent","add-country");
+        return "master-template";
     }
 
     @PostMapping("/add")

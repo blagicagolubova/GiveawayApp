@@ -20,8 +20,10 @@ public class LoginController {
         this.authService = authService;
     }
     @GetMapping
-    public String getLoginPage() {
-        return "login";
+    public String getLoginPage(Model model) {
+        model.addAttribute("username", null);
+        model.addAttribute("bodyContent","login");
+        return "master-template";
     }
 
     @PostMapping
