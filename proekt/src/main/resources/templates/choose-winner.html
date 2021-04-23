@@ -3,12 +3,8 @@
     <title>Winner | Giveaway</title>
 </head>
 <div xmlns:th="http://www.thymeleaf.org">
-<h1>The Winner is: </h1>
-<input type="text"
-       id="winner"
-       name="winner"
-       class="form-control"
-       placeholder="Name"
-       th:value="${winner.getName()}"
-       required="" autofocus="">
+    <div class="container">
+        <br><br><br>
+        <h1>The Winner is user with username: <span th:text="${winner.getName()}"></span></h1>
+    </div>
 </div>

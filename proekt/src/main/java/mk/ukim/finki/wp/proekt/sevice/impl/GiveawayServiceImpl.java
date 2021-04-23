@@ -141,7 +141,7 @@ public class GiveawayServiceImpl implements GiveawayService {
         if(participantList.size()>0){
            User winner =  participantList.get(randomizer.nextInt(participantList.size()));
            giveaway.setWinner(winner);
-           //  this.emailService.sendSimpleMessage(winner.getEmail(), "Giveaway winner", "You are winner for giveaway with name"+ giveaway.getName());
+           this.emailService.sendSimpleMessage(winner.getEmail(), "Giveaway winner", "You are winner for giveaway with name "+ giveaway.getName());
            this.giveawayRepository.save(giveaway);
            return winner;
         }

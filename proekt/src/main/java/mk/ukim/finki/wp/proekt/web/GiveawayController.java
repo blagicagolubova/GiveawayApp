@@ -136,11 +136,14 @@ public class GiveawayController {
     }
 
     @PostMapping("/choosewinner/{id}")
-    public String chooseWinner(@PathVariable Integer id, Model model){
+    public String chooseWinner(@PathVariable Integer id, HttpServletRequest request, Model model){
         if(!this.giveawayService.checkIfGiveawayHasWinner(id)){
             User user=this.giveawayService.winner(id);
+            String username= request.getRemoteUser();
             model.addAttribute("winner",user);
-            return "choose-winner";
+            model.addAttribute("username", username);
+            model.addAttribute("bodyContent","choose-winner");
+            return "master-template";
         }
         else{
             return "details-giveaway";

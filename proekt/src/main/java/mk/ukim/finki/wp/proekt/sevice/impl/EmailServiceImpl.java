@@ -2,7 +2,6 @@ package mk.ukim.finki.wp.proekt.sevice.impl;
 
 import mk.ukim.finki.wp.proekt.sevice.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    @Qualifier("getJavaMailSender")
     @Autowired
     private JavaMailSender javaMailSender;
 
