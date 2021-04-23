@@ -25,13 +25,8 @@
                 <tr th:each="region : ${regions}">
                     <td th:text="${region.getName()}"></td>
                     <td class="text-right">
-<!--                        <form th:method="post" th:action="@{'awards/delete/{id}' (id=${award.getId()})}">-->
-<!--                            <button type="submit" class="btn btn-sm btn-danger">-->
-<!--                                <i class="fa fa-trash">Delete</i>-->
-<!--                            </button>-->
-<!--                        </form>-->
 
-                        <a class="btn btn-success" th:href="@{'/region/details/{id}' (id=${region.getId()})}"><i class="fa fa-trash">Edit</i></a>
+                        <a class="btn btn-info" th:href="@{'/region/details/{id}' (id=${region.getId()})}"><i class="fa fa-trash">Edit</i></a>
 
                     </td>
                 </tr>

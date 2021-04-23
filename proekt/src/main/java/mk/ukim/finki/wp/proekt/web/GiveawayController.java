@@ -4,6 +4,7 @@ import mk.ukim.finki.wp.proekt.model.*;
 import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
 import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 import mk.ukim.finki.wp.proekt.sevice.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +60,7 @@ public class GiveawayController {
     }
 
     @GetMapping("/add-giveaway")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String addGiveawayPage(Model model,
                                   @ModelAttribute("region") Region region,
                                   @ModelAttribute("country") Country country,

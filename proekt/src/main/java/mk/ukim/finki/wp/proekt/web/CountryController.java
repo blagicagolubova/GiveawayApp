@@ -3,6 +3,7 @@ package mk.ukim.finki.wp.proekt.web;
 import mk.ukim.finki.wp.proekt.model.enumerations.Continent;
 import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 import mk.ukim.finki.wp.proekt.sevice.CountryService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/country")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class CountryController {
     private final CountryService countryService;
 

@@ -1,5 +1,6 @@
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giveaway List</title>
 </head>
 <div xmlns:th="http://www.thymeleaf.org">
@@ -14,14 +15,16 @@
                     <option class="dropdown-item" value="all">All</option>
                     <option class="dropdown-item" th:each="category:${categoryList}" th:value="${category.getName()}" th:text="${category.getName()}"></option>
                 </select>
-                <button id="filter" type="submit" class="btn btn-success btn-block col-md-3">Filter</button>
+                <button id="filter" type="submit" class="btn btn-success btn-block col-md-3" style="margin-left:1%;">Filter</button>
             </div>
         </div>
     </form>
 </div>
 <br/>
 <div class="container">
+    <th:block sec:authorize="hasRole('ROLE_USER')">
     <a href="/giveaway/add-giveaway" class="btn btn-primary">Add new Giveaway</a>
+    </th:block>
 
     <p th:if="${giveawayList.size()<1}">
         You don't have giveaways to participate to.
@@ -48,12 +51,13 @@
                                         <i class="fa fa-trash">Details</i>
                         </a>
 
-
+                        <th:block sec:authorize="hasRole('ROLE_USER')">
                         <form th:action="@{'/giveaway/add-participant/{id}' (id=${giveaway.getId()})}" th:method="POST">
                             <button type="submit" class="btn btn-sm btn-primary cart-product" style="margin-left: 9%;">
                                 <i class="fa fa-trash">Participate</i>
                             </button>
                         </form>
+                            </th:block>
                     </div>
                 </div>
             </span>

@@ -4,6 +4,7 @@ import mk.ukim.finki.wp.proekt.model.Country;
 import mk.ukim.finki.wp.proekt.model.Region;
 import mk.ukim.finki.wp.proekt.sevice.CountryService;
 import mk.ukim.finki.wp.proekt.sevice.RegionService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/region")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class RegionController {
     private final RegionService regionService;
     private final CountryService countryService;

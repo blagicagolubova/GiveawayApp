@@ -98,7 +98,7 @@
         </div>
 </div>
 
-
+<th:block sec:authorize="hasRole('ROLE_USER')">
 <div class="w3-bar w3-black" style="background-color: #7fba94!important;">
     <button class="w3-bar-item w3-button" onclick="openCity('London')">My giveaways waiting for winner</button>
     <button class="w3-bar-item w3-button" onclick="openCity('Paris')">My active giveaways</button>
@@ -212,5 +212,7 @@
         </div>
     </div>
 </div>
+</th:block>
 </div>
 </div>
+
