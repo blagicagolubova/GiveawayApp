@@ -1,6 +1,8 @@
 package mk.ukim.finki.wp.proekt.sevice.impl;
 
 import mk.ukim.finki.wp.proekt.model.Category;
+import mk.ukim.finki.wp.proekt.model.exceptions.CategoryNameCanNotBeEmptyException;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidCategoryIdException;
 import mk.ukim.finki.wp.proekt.repository.CategoryRepository;
 import mk.ukim.finki.wp.proekt.sevice.CategoryService;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
             return this.categoryRepository.save(category);
         }
         else {
-            //TODO:exception
-            return null;
+            throw new CategoryNameCanNotBeEmptyException();
         }
     }
 
@@ -34,13 +35,17 @@ public class CategoryServiceImpl implements CategoryService {
             return this.categoryRepository.findById(id).get();
         }
         else{
-            //TODO: exception
-            return null;
+            throw new InvalidCategoryIdException();
         }
     }
 
     @Override
     public List<Category> findAll() {
         return this.categoryRepository.findAll();
+    }
+
+    @Override
+    public Category findByName(String name) {
+        return this.categoryRepository.findByName(name);
     }
 }

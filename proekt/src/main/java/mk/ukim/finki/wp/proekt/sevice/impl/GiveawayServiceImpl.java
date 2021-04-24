@@ -3,6 +3,10 @@ package mk.ukim.finki.wp.proekt.sevice.impl;
 import mk.ukim.finki.wp.proekt.model.*;
 import mk.ukim.finki.wp.proekt.model.enumerations.GiveawayStatus;
 import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
+import mk.ukim.finki.wp.proekt.model.exceptions.CanNotChooseWinnerIfThereAreNotParticipantsException;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidGiveawayArgumentsException;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidGiveawayIdException;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidGiveawayRegionIdException;
 import mk.ukim.finki.wp.proekt.repository.CategoryRepository;
 import mk.ukim.finki.wp.proekt.repository.GiveawayRepository;
 import mk.ukim.finki.wp.proekt.sevice.*;
@@ -16,15 +20,17 @@ import java.util.Random;
 
 @Service
 public class GiveawayServiceImpl implements GiveawayService {
+
     private final GiveawayRepository giveawayRepository;
-    private  final UserService userService;
+    private final UserService userService;
     private final CategoryRepository categoryRepository;
     private final AwardService awardService;
     private final GiveawayRegionService giveawayRegionService;
     private final CompanyService companyService;
     private final EmailService emailService;
+    private final CategoryService categoryService;
 
-    public GiveawayServiceImpl(GiveawayRepository giveawayRepository, UserService userService, CategoryRepository categoryRepository, AwardService awardService, GiveawayRegionService giveawayRegionService, CompanyService companyService, EmailService emailService) {
+    public GiveawayServiceImpl(GiveawayRepository giveawayRepository, UserService userService, CategoryRepository categoryRepository, AwardService awardService, GiveawayRegionService giveawayRegionService, CompanyService companyService, EmailService emailService, CategoryService categoryService) {
         this.giveawayRepository = giveawayRepository;
         this.userService = userService;
         this.categoryRepository = categoryRepository;
@@ -32,6 +38,7 @@ public class GiveawayServiceImpl implements GiveawayService {
         this.giveawayRegionService = giveawayRegionService;
         this.companyService = companyService;
         this.emailService = emailService;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -64,8 +71,7 @@ public class GiveawayServiceImpl implements GiveawayService {
            }
         }
         else{
-            //TODO: exception
-            return null;
+            throw new InvalidGiveawayArgumentsException();
         }
     }
 
@@ -146,8 +152,7 @@ public class GiveawayServiceImpl implements GiveawayService {
            return winner;
         }
        else {
-           //ToDo:Exception
-            return null;
+           throw new CanNotChooseWinnerIfThereAreNotParticipantsException();
         }
     }
 
@@ -200,9 +205,7 @@ public class GiveawayServiceImpl implements GiveawayService {
         if(this.giveawayRepository.findById(id).isPresent())
         {return this.giveawayRepository.findById(id).get();}
         else {
-        //ToDo:Exception
-            return null;
-
+            throw new InvalidGiveawayIdException();
         }
     }
 
@@ -249,12 +252,45 @@ public class GiveawayServiceImpl implements GiveawayService {
     public List<Giveaway> listByCategory(String search, String username) {
         List<Giveaway> available=this.findAvailableForParticipation(username);
         List<Giveaway> availableByCategory=new ArrayList<Giveaway>();
-        for (Giveaway giveaway : available) {
-            if (giveaway.getCategory().getName().equals(search)) {
-                availableByCategory.add(giveaway);
-            }
+        if(search.equals("all")){
+            return available;
         }
-        return availableByCategory;
+        else {
+            for (Giveaway giveaway : available) {
+                if (giveaway.getCategory().getName().equals(search)) {
+                    availableByCategory.add(giveaway);
+                }
+            }
+            return availableByCategory;
+        }
+    }
+
+    @Override
+    public List<Giveaway> findAllByStatus(GiveawayStatus status) {
+        return this.giveawayRepository.findAllByStatus(status);
+    }
+
+    @Override
+    public List<Giveaway> findAllByStatusAndCategory(String status, String search) {
+        if (status==null && search==null){
+            return this.findAll();
+        }
+        else if(status.equals("all") && search.equals("all")){
+            return this.findAll();
+        }
+        else if(search.equals("all")) {
+            GiveawayStatus status1= GiveawayStatus.valueOf(status);
+            return this.findAllByStatus(status1);
+        }
+        else if(status.equals("all")) {
+            Category category=this.categoryService.findByName(search);
+            return this.giveawayRepository.findAllByCategory(category);
+        }
+        else {
+            GiveawayStatus status1= GiveawayStatus.valueOf(status);
+            Category category=this.categoryService.findByName(search);
+            return this.giveawayRepository.findAllByStatusAndCategory(status1, category);
+        }
     }
 
     @Override

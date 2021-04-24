@@ -18,7 +18,8 @@ public interface AwardService {
     List<Award> findAllByStatus(AwardStatus status);
 
     Award updateStatus(Integer awardId,AwardStatus awardStatus);
+
+    List<Award> findAll();
+
     void deleteById(Integer id);
-
-
 }

@@ -51,12 +51,13 @@
                             <i class="fa fa-trash">Details</i>
                         </a>
 
-
-                        <form th:action="@{'/giveaway/add-participant/{id}' (id=${giveaway.getId()})}" th:method="POST">
-                            <button type="submit" class="btn btn-sm btn-primary cart-product" style="margin-left: 9%;">
-                                <i class="fa fa-trash">Participate</i>
-                            </button>
-                        </form>
+                        <th:block sec:authorize="hasRole('ROLE_USER')">
+                            <form th:action="@{'/giveaway/add-participant/{id}' (id=${giveaway.getId()})}" th:method="POST">
+                                <button type="submit" class="btn btn-sm btn-primary cart-product" style="margin-left: 9%;">
+                                    <i class="fa fa-trash">Participate</i>
+                                </button>
+                            </form>
+                        </th:block>
                     </div>
                 </div>
             </div>

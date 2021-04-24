@@ -2,14 +2,19 @@ package mk.ukim.finki.wp.proekt.web;
 
 import mk.ukim.finki.wp.proekt.model.Award;
 import mk.ukim.finki.wp.proekt.model.Manufacturer;
+import mk.ukim.finki.wp.proekt.model.User;
 import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
+import mk.ukim.finki.wp.proekt.model.enumerations.Role;
 import mk.ukim.finki.wp.proekt.sevice.AwardService;
 import mk.ukim.finki.wp.proekt.sevice.ManufacturerService;
+import mk.ukim.finki.wp.proekt.sevice.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,18 +22,26 @@ import java.util.List;
 public class AwardController {
 
     private final ManufacturerService manufacturerService;
-
     private final AwardService awardService;
+    private final UserService userService;
 
-    public AwardController(ManufacturerService manufacturerService, AwardService awardService) {
+    public AwardController(ManufacturerService manufacturerService, AwardService awardService, UserService userService) {
         this.manufacturerService = manufacturerService;
         this.awardService = awardService;
+        this.userService = userService;
     }
 
     @GetMapping
     public String getAwardsPage(Model model, HttpServletRequest req){
         String username=req.getRemoteUser();
-        List<Award> awards=awardService.findAllByCreator(username);
+        User user=this.userService.findByUsername(username);
+        List<Award> awards=new ArrayList<Award>();
+        if(user.getRole()== Role.ROLE_USER){
+            awards=awardService.findAllByCreator(username);
+        }
+        else {
+            awards=awardService.findAll();
+        }
         AwardStatus status=AwardStatus.DEACTIVE;
         model.addAttribute("awards", awards);
         model.addAttribute("status", status);
@@ -39,6 +52,7 @@ public class AwardController {
     }
 
     @GetMapping("/add-award")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String addAwardPage(Model model,HttpServletRequest req){
         String username=req.getRemoteUser();
         List<Manufacturer> manufacturers=this.manufacturerService.findAll();

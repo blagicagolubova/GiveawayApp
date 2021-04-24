@@ -2,6 +2,9 @@ package mk.ukim.finki.wp.proekt.sevice.impl;
 
 import mk.ukim.finki.wp.proekt.model.Country;
 import mk.ukim.finki.wp.proekt.model.Region;
+import mk.ukim.finki.wp.proekt.model.exceptions.EmptyRegionNameException;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidRegionArgumentsException;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidRegionIdException;
 import mk.ukim.finki.wp.proekt.repository.RegionRepository;
 import mk.ukim.finki.wp.proekt.sevice.CountryService;
 import mk.ukim.finki.wp.proekt.sevice.RegionService;
@@ -36,8 +39,7 @@ public class RegionServiceImpl implements RegionService {
             return this.regionRepository.save(region);
         }
         else{
-            //To-Do expetions
-            return null;
+            throw new InvalidRegionArgumentsException();
         }
     }
 
@@ -47,8 +49,7 @@ public class RegionServiceImpl implements RegionService {
             return this.regionRepository.findByName(name);
         }
         else{
-            //TODO: exception
-            return null;
+            throw new EmptyRegionNameException();
         }
     }
 
@@ -58,8 +59,7 @@ public class RegionServiceImpl implements RegionService {
             return this.regionRepository.findById(id).get();
         }
         else{
-            //TODO: exception
-            return null;
+            throw new InvalidRegionIdException();
         }
     }
 

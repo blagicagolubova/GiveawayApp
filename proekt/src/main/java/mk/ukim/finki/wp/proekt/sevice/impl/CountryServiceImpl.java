@@ -2,6 +2,8 @@ package mk.ukim.finki.wp.proekt.sevice.impl;
 
 import mk.ukim.finki.wp.proekt.model.Country;
 import mk.ukim.finki.wp.proekt.model.enumerations.Continent;
+import mk.ukim.finki.wp.proekt.model.exceptions.CountryNameAndCodeCanNotBeEmptyException;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidCountryIdException;
 import mk.ukim.finki.wp.proekt.repository.CountryRepository;
 import mk.ukim.finki.wp.proekt.sevice.CountryService;
 import org.springframework.stereotype.Service;
@@ -24,8 +26,7 @@ public class CountryServiceImpl implements CountryService {
             return this.countryRepository.save(country);
         }
         else{
-            //TODO: exception
-            return null;
+            throw new CountryNameAndCodeCanNotBeEmptyException();
         }
     }
 
@@ -35,8 +36,7 @@ public class CountryServiceImpl implements CountryService {
             return this.countryRepository.findById(id).get();
         }
         else{
-            //TODO: exception
-            return null;
+            throw new InvalidCountryIdException();
         }
     }
 

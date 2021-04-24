@@ -11,10 +11,16 @@
     <form>
         <div class="form-group">
             <div class="row">
-                <select id="categorySearch" name="categorySearch" class="form-control col-md-8">
+                <select id="categorySearch" name="categorySearch" class="form-control col-md-4">
                     <option class="dropdown-item" value="all">All</option>
                     <option class="dropdown-item" th:each="category:${categoryList}" th:value="${category.getName()}" th:text="${category.getName()}"></option>
                 </select>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <select id="statusSearch" name="statusSearch" class="form-control col-md-4">
+                        <option class="dropdown-item" value="all">All</option>
+                        <option class="dropdown-item" th:each="stat:${status}" th:value="${stat}" th:text="${stat}"></option>
+                    </select>
+                </th:block>
                 <button id="filter" type="submit" class="btn btn-success btn-block col-md-3" style="margin-left:1%;">Filter</button>
             </div>
         </div>
@@ -23,12 +29,11 @@
 <br/>
 <div class="container">
     <th:block sec:authorize="hasRole('ROLE_USER')">
-    <a href="/giveaway/add-giveaway" class="btn btn-primary">Add new Giveaway</a>
+        <a href="/giveaway/add-giveaway" class="btn btn-primary">Add new Giveaway</a>
+        <p th:if="${giveawayList.size()<1}">
+            You don't have giveaways to participate to.
+        </p>
     </th:block>
-
-    <p th:if="${giveawayList.size()<1}">
-        You don't have giveaways to participate to.
-    </p>
 </div>
 <br/>
 <div class="container mb-4 threeGrid">
@@ -52,12 +57,12 @@
                         </a>
 
                         <th:block sec:authorize="hasRole('ROLE_USER')">
-                        <form th:action="@{'/giveaway/add-participant/{id}' (id=${giveaway.getId()})}" th:method="POST">
-                            <button type="submit" class="btn btn-sm btn-primary cart-product" style="margin-left: 9%;">
-                                <i class="fa fa-trash">Participate</i>
-                            </button>
-                        </form>
-                            </th:block>
+                            <form th:action="@{'/giveaway/add-participant/{id}' (id=${giveaway.getId()})}" th:method="POST">
+                                <button type="submit" class="btn btn-sm btn-primary cart-product" style="margin-left: 9%;">
+                                    <i class="fa fa-trash">Participate</i>
+                                </button>
+                            </form>
+                        </th:block>
                     </div>
                 </div>
             </span>

@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.proekt.sevice;
 
 import mk.ukim.finki.wp.proekt.model.*;
+import mk.ukim.finki.wp.proekt.model.enumerations.GiveawayStatus;
 import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 
 import java.util.Date;
@@ -39,6 +40,10 @@ public interface GiveawayService {
     Boolean checkIfIsFinished(Integer giveaway_id);
 
     List<Giveaway> listByCategory(String search, String username);
+
+    List<Giveaway> findAllByStatus(GiveawayStatus status);
+
+    List<Giveaway> findAllByStatusAndCategory(String status, String search);
 
     void refreshGiveawayStatus();
 

@@ -4,7 +4,7 @@
 </head>
 
 <!-- Navigation -->
-<br><br><br>
+<br>
 <div xmlns:th="http://www.thymeleaf.org">
     <div class="container">
         <br>
@@ -60,9 +60,13 @@
                             th:text="${man.getName()}">
                     </option>
                 </select>
-                <th-block th:if="${manufacturers.size()} == 0">
-                    <a type="button" class="btn btn-primary" href="/manufacturer/add-manu">Add Manufacturer</a>
-                </th-block>
+                <br>
+                <span>
+                    <p>
+                        Manufacturer for your product does not exist. Create here
+                        <a type="button" class="btn btn-primary" href="/manufacturer/add-manu">Add Manufacturer</a>
+                    </p>
+                </span>
             </div>
             <th-block th:if="${award} == null">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Add Award</button>

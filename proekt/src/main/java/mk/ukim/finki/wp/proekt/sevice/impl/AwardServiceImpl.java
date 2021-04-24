@@ -4,8 +4,9 @@ import mk.ukim.finki.wp.proekt.model.Award;
 import mk.ukim.finki.wp.proekt.model.Manufacturer;
 import mk.ukim.finki.wp.proekt.model.User;
 import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidAwardIdException;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidManufacturerIdException;
 import mk.ukim.finki.wp.proekt.repository.AwardRepository;
-import mk.ukim.finki.wp.proekt.repository.UserRepository;
 import mk.ukim.finki.wp.proekt.sevice.AwardService;
 import mk.ukim.finki.wp.proekt.sevice.ManufacturerService;
 import mk.ukim.finki.wp.proekt.sevice.UserService;
@@ -37,8 +38,7 @@ public class AwardServiceImpl implements AwardService {
             return this.awardRepository.save(award);
         }
         else {
-            //TODO:exception
-            return null;
+            throw new InvalidManufacturerIdException();
         }
     }
 
@@ -53,8 +53,7 @@ public class AwardServiceImpl implements AwardService {
            return this.awardRepository.save(a);
        }
        else{
-           //TODO:exception
-           return null;
+           throw new InvalidAwardIdException();
        }
     }
 
@@ -64,8 +63,7 @@ public class AwardServiceImpl implements AwardService {
             return this.awardRepository.findById(id).get();
         }
         else {
-            //TODO:exception
-            return null;
+           throw new InvalidAwardIdException();
         }
     }
 
@@ -91,9 +89,13 @@ public class AwardServiceImpl implements AwardService {
        }
        else
        {
-           //ToDo:Exception
-           return null;
+           throw new InvalidAwardIdException();
        }
+    }
+
+    @Override
+    public List<Award> findAll() {
+        return this.awardRepository.findAll();
     }
 
     @Override

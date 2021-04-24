@@ -61,8 +61,7 @@ public class UserServiceImpl implements UserService {
             return this.userRepository.findById(username).get();
         }
         else {
-            //TODO: exception
-            return null;
+            throw new InvalidUsernameException();
         }
     }
 

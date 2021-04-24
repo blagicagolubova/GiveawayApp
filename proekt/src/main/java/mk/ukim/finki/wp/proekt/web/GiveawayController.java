@@ -2,6 +2,8 @@ package mk.ukim.finki.wp.proekt.web;
 
 import mk.ukim.finki.wp.proekt.model.*;
 import mk.ukim.finki.wp.proekt.model.enumerations.AwardStatus;
+import mk.ukim.finki.wp.proekt.model.enumerations.GiveawayStatus;
+import mk.ukim.finki.wp.proekt.model.enumerations.Role;
 import mk.ukim.finki.wp.proekt.model.enumerations.UserType;
 import mk.ukim.finki.wp.proekt.sevice.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,16 +45,24 @@ public class GiveawayController {
     }
 
     @GetMapping
-    public String getGiveawayPage(@RequestParam(required = false) String categorySearch, Model model, HttpServletRequest request){
+    public String getGiveawayPage(@RequestParam(required = false) String categorySearch, @RequestParam(required = false) String statusSearch, Model model, HttpServletRequest request){
         List<Giveaway> giveaways;
         String username=request.getRemoteUser();
-        if(categorySearch==null){
-            giveaways=this.giveawayService.findAvailableForParticipation(username);
+        User user= this.userService.findByUsername(username);
+        if (user.getRole()== Role.ROLE_USER){
+            if(categorySearch==null){
+                giveaways=this.giveawayService.findAvailableForParticipation(username);
+            }
+            else {
+                giveaways=this.giveawayService.listByCategory(categorySearch, username);
+            }
         }
         else {
-            giveaways=this.giveawayService.listByCategory(categorySearch, username);
+            giveaways=this.giveawayService.findAllByStatusAndCategory(statusSearch, categorySearch);
+
         }
         model.addAttribute("categoryList", this.categoryService.findAll());
+        model.addAttribute("status", GiveawayStatus.values());
         model.addAttribute("giveawayList", giveaways);
         model.addAttribute("username", username);
         model.addAttribute("bodyContent","giveaway");

@@ -2,6 +2,8 @@ package mk.ukim.finki.wp.proekt.sevice.impl;
 
 import mk.ukim.finki.wp.proekt.model.Country;
 import mk.ukim.finki.wp.proekt.model.GiveawayRegion;
+import mk.ukim.finki.wp.proekt.model.exceptions.CanNotMakeGiveawayRegionWithoutCountriesException;
+import mk.ukim.finki.wp.proekt.model.exceptions.InvalidGiveawayRegionIdException;
 import mk.ukim.finki.wp.proekt.repository.GiveawayRegionRepository;
 import mk.ukim.finki.wp.proekt.sevice.CountryService;
 import mk.ukim.finki.wp.proekt.sevice.GiveawayRegionService;
@@ -38,13 +40,11 @@ public class GiveawayRegionServiceImpl implements GiveawayRegionService {
                 return this.giveawayRegionRepository.save(giveawayRegion);
             }
             else{
-                //TODO: exception
-                return null;
+                throw new CanNotMakeGiveawayRegionWithoutCountriesException();
             }
         }
         else{
-            //TODO: exception
-            return null;
+            throw new InvalidGiveawayRegionIdException();
         }
 
     }
