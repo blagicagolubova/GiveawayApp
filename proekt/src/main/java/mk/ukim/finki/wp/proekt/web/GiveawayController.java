@@ -12,6 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.lowagie.text.DocumentException;
+
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -201,6 +207,23 @@ public class GiveawayController {
         }
 
         return "redirect:/giveaway";
+    }
+
+    @GetMapping("/export/pdf")
+    public void exportToPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=giveaways_" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+
+        List<Giveaway> giveawayList = giveawayService.findAll();
+
+        GiveawayPDFExporter exporter = new GiveawayPDFExporter(giveawayList);
+        exporter.export(response);
+
     }
 
 

@@ -1,8 +1,20 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Giveaway List</title>
 </head>
+<style>
+    .link {
+        background-color: #7c777c;
+        color: white;
+        padding: 9px 17px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 4px;
+    }
+</style>
 <div xmlns:th="http://www.thymeleaf.org">
 <!-- Navigation -->
 
@@ -22,6 +34,11 @@
                     </select>
                 </th:block>
                 <button id="filter" type="submit" class="btn btn-success btn-block col-md-3" style="margin-left:1%;">Filter</button>
+                <br/>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                <a  class="link" th:href="@{'/giveaway/export/pdf'}" style="margin-left: 0.5%;"><i class="fa fa-download"></i>PDF</a>
+                </th:block>
+
             </div>
         </div>
     </form>
@@ -53,13 +70,13 @@
                     <div class="card-body" style="display: inline-flex;">
                         <a th:href="@{'/giveaway/details/{id}' (id=${giveaway.getId()})}"
                            class="btn btn-sm btn-info edit-product">
-                                        <i class="fa fa-trash">Details</i>
+                                        <i>Details</i>
                         </a>
 
                         <th:block sec:authorize="hasRole('ROLE_USER')">
                             <form th:action="@{'/giveaway/add-participant/{id}' (id=${giveaway.getId()})}" th:method="POST">
                                 <button type="submit" class="btn btn-sm btn-primary cart-product" style="margin-left: 9%;">
-                                    <i class="fa fa-trash">Participate</i>
+                                    <i>Participate</i>
                                 </button>
                             </form>
                         </th:block>

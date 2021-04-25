@@ -51,17 +51,15 @@
                         </li>
                     </th:block>
                     <th:block sec:authorize="isAuthenticated()">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/my-profile">My profile</a>
-                        </li>
+                    <th:block sec:authorize="isAuthenticated()">
                         <li class="nav-item">
                             <a class="nav-link" href="/logout">
-                                <i class="fa fa-shopping-cart"></i> Logout
+                                Logout
                             </a>
                         </li>
                     </th:block>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/my-profile">
                                 <th:block th:if="${#request.getRemoteUser() != null}"
                                           th:text="${#request.getRemoteUser()}"></th:block>
                             </a>
