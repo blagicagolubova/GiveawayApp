@@ -75,8 +75,9 @@ public class AwardServiceImpl implements AwardService {
     }
 
     @Override
-    public List<Award> findAllByStatus(AwardStatus status) {
-        return this.awardRepository.findAllByStatus(status);
+    public List<Award> findAllByStatusAndUser(AwardStatus status, String username) {
+        User user=this.userService.findByUsername(username);
+        return this.awardRepository.findAllByStatusAndCreator(status, user);
     }
 
     @Override

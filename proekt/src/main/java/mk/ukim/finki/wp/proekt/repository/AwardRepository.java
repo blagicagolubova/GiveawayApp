@@ -13,5 +13,5 @@ public interface AwardRepository extends JpaRepository<Award,Integer> {
 
     List<Award> findAllByCreator(User user);
 
-    List<Award> findAllByStatus(AwardStatus awardStatus);
+    List<Award> findAllByStatusAndCreator(AwardStatus awardStatus, User creator);
 }

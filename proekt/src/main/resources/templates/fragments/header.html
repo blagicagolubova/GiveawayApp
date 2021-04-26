@@ -49,21 +49,23 @@
 
                             </a>
                         </li>
-                    </th:block>
-                    <th:block sec:authorize="isAuthenticated()">
-                    <th:block sec:authorize="isAuthenticated()">
                         <li class="nav-item">
-                            <a class="nav-link" href="/logout">
-                                Logout
-                            </a>
+                            <a class="nav-link" href="/category">Categories</a>
                         </li>
                     </th:block>
+                    <th:block sec:authorize="isAuthenticated()">
                         <li class="nav-item">
                             <a class="nav-link" href="/my-profile">
                                 <th:block th:if="${#request.getRemoteUser() != null}"
                                           th:text="${#request.getRemoteUser()}"></th:block>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">
+                                Logout
+                            </a>
+                        </li>
+                    </th:block>
                 </ul>
             </div>
         </div>

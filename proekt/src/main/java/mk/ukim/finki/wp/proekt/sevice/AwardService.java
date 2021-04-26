@@ -15,7 +15,7 @@ public interface AwardService {
 
     List<Award> findAllByCreator(String username);
 
-    List<Award> findAllByStatus(AwardStatus status);
+    List<Award> findAllByStatusAndUser(AwardStatus status, String username);
 
     Award updateStatus(Integer awardId,AwardStatus awardStatus);
 

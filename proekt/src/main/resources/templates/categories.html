@@ -1,0 +1,34 @@
+<head>
+    <title>Category List</title>
+</head>
+
+<div xmlns:th="http://www.thymeleaf.org">
+    <br/> <br/><br/>
+    <div>
+        <div class="container">
+            <a href="/category/add-category" class="btn btn-primary">Add new Category</a>
+            <p th:if="${categories.size()<1}">
+                You don't have any categories.
+            </p>
+        </div>
+        <br/>
+        <div class="container" th:if="${categories.size()>0}">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Category</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="category : ${categories}">
+                            <td th:text="${category.getName()}"></td>
+                            <td th:text="${category.getDescription()}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

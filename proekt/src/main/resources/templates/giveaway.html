@@ -56,7 +56,7 @@
 <div class="container mb-4 threeGrid">
         <span th:if="${giveawayList.size() > 0}"  >
 
-            <span th:each="giveaway : ${giveawayList}" class="col-md-4" style="float: left">
+            <span th:each="giveaway : ${giveawayList}" class="col-md-4" style="float: left; margin-bottom: 2%">
 
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" th:src="${giveaway.getAward().getUrl()}" alt="Card image cap" style="height: 220px;">

@@ -84,7 +84,7 @@ public class GiveawayController {
         String username=request.getRemoteUser();
         GiveawayRegion giveawayRegion=new GiveawayRegion();
         List<Region> regions=this.regionService.findAll();
-        List<Award> awards= this.awardService.findAllByStatus(AwardStatus.DEACTIVE);
+        List<Award> awards= this.awardService.findAllByStatusAndUser(AwardStatus.DEACTIVE, username);
         List<Manufacturer> manufacturers=this.manufacturerService.findAll();
         List<Category> categories=this.categoryService.findAll();
         model.addAttribute("user_types", UserType.values());
